@@ -19,13 +19,14 @@ namespace mystl
 	///		auto& endIt = arr.cend();
 	/// 
 	///////////////////////////////////////////////////////////////////////////////////////
-	template<class T>
+	template<typename T>
 	class const_iterator
 	{
 	public:
 		using		value_type				= typename T::value_type;
 		using		const_pointer_type		= const value_type*;
 		using		const_reference_type	= const value_type&;
+		using		ptrdiff_t				= std::ptrdiff_t;
 
 	public:
 		CONSTEXPR							const_iterator(const_pointer_type ptr);
@@ -42,58 +43,59 @@ namespace mystl
 		CONSTEXPR	const_iterator			operator++(int);
 
 		CONSTEXPR	const_iterator&			operator--();
+		CONSTEXPR	ptrdiff_t				operator-(const_iterator other);
 		CONSTEXPR	const_iterator&			operator-(const size_t& offset);
 		CONSTEXPR	const_iterator			operator--(int);
 
 
 
 	public:
-		CONSTEXPR	bool					operator==(const const_iterator& other) const;
-		CONSTEXPR	bool					operator!=(const const_iterator& other) const;
+		CONSTEXPR	bool					operator==(const_iterator& other) const;
+		CONSTEXPR	bool					operator!=(const_iterator& other) const;
 
 	private:
 					const_pointer_type		m_ConstPtr = nullptr;
 	};
 
-	template<class T>
+	template<typename T>
 	CONSTEXPR const_iterator<T>::const_iterator(const_pointer_type ptr) : m_ConstPtr(ptr) { }
 
-	template<class T>
+	template<typename T>
 	CONSTEXPR typename const_iterator<T>::const_reference_type
 		const_iterator<T>::operator[](const size_t& offset)
 	{
 		return *(m_ConstPtr + offset);
 	}
 
-	template<class T>
+	template<typename T>
 	CONSTEXPR typename const_iterator<T>::const_reference_type
 		const_iterator<T>::operator*()
 	{
 		return *m_ConstPtr;
 	}
 
-	template<class T>
+	template<typename T>
 	CONSTEXPR typename const_iterator<T>::const_pointer_type
 		const_iterator<T>::operator->()
 	{
 		return m_ConstPtr;
 	}
 
-	template<class T>
+	template<typename T>
 	CONSTEXPR const_iterator<T>& const_iterator<T>::operator++()
 	{
 		m_ConstPtr++;
 		return *this;
 	}
 
-	template<class T>
+	template<typename T>
 	CONSTEXPR const_iterator<T>& const_iterator<T>::operator+(const size_t& offset)
 	{
 		m_ConstPtr += offset;
 		return *this;
 	}
 
-	template<class T>
+	template<typename T>
 	CONSTEXPR const_iterator<T> const_iterator<T>::operator++(int)
 	{
 		const_iterator it = *this;
@@ -101,21 +103,27 @@ namespace mystl
 		return it;
 	}
 
-	template<class T>
+	template<typename T>
 	CONSTEXPR const_iterator<T>& const_iterator<T>::operator--()
 	{
 		m_ConstPtr--;
 		return *this;
 	}
 
-	template<class T>
+	template<typename T>
+	CONSTEXPR ptrdiff_t const_iterator<T>::operator-(const_iterator other)
+	{
+		return ptrdiff_t(m_ConstPtr - other);
+	}
+
+	template<typename T>
 	CONSTEXPR const_iterator<T>& const_iterator<T>::operator-(const size_t& offset)
 	{
 		m_ConstPtr -= offset;
 		return *this;
 	}
 
-	template<class T>
+	template<typename T>
 	CONSTEXPR const_iterator<T> const_iterator<T>::operator--(int)
 	{
 		const_iterator it = *this;
@@ -123,14 +131,14 @@ namespace mystl
 		return it;
 	}
 
-	template<class T>
-	CONSTEXPR bool const_iterator<T>::operator==(const const_iterator& other) const
+	template<typename T>
+	CONSTEXPR bool const_iterator<T>::operator==(const_iterator& other) const
 	{
 		return m_ConstPtr == other.m_ConstPtr;
 	}
 
-	template<class T>
-	CONSTEXPR bool const_iterator<T>::operator!=(const const_iterator& other) const
+	template<typename T>
+	CONSTEXPR bool const_iterator<T>::operator!=(const_iterator& other) const
 	{
 		return !(*this == other);
 	}
@@ -152,7 +160,7 @@ namespace mystl
 	///		auto& endIt = arr.end();
 	/// 
 	///////////////////////////////////////////////////////////////////////////////////////
-	template<class T>
+	template<typename T>
 	class iterator
 	{
 	public:
@@ -176,6 +184,7 @@ namespace mystl
 
 		CONSTEXPR	iterator&		operator--();
 		CONSTEXPR	iterator&		operator-(const size_t& offset);
+		CONSTEXPR	ptrdiff_t		operator-(iterator other);
 		CONSTEXPR	iterator		operator--(int);
 
 
@@ -187,45 +196,45 @@ namespace mystl
 					pointer_type	m_Ptr = nullptr;
 	};
 
-	template<class T>
+	template<typename T>
 	CONSTEXPR iterator<T>::iterator(pointer_type ptr) : m_Ptr(ptr) { }
 
-	template<class T>
+	template<typename T>
 	CONSTEXPR typename iterator<T>::reference_type
 		iterator<T>::operator[](const size_t& offset)
 	{
 		return *(m_Ptr + offset);
 	}
 
-	template<class T>
+	template<typename T>
 	CONSTEXPR typename iterator<T>::reference_type
 		iterator<T>::operator*()
 	{
 		return *m_Ptr;
 	}
 
-	template<class T>
+	template<typename T>
 	CONSTEXPR typename iterator<T>::pointer_type
 		iterator<T>::operator->()
 	{
 		return m_Ptr;
 	}
 
-	template<class T>
+	template<typename T>
 	CONSTEXPR iterator<T>& iterator<T>::operator++()
 	{
 		m_Ptr++;
 		return *this;
 	}
 
-	template<class T>
+	template<typename T>
 	CONSTEXPR iterator<T>& iterator<T>::operator+(const size_t& offset)
 	{
 		m_Ptr += offset;
 		return *this;
 	}
 
-	template<class T>
+	template<typename T>
 	CONSTEXPR iterator<T> iterator<T>::operator++(int)
 	{
 		iterator it = *this;
@@ -233,21 +242,21 @@ namespace mystl
 		return it;
 	}
 
-	template<class T>
+	template<typename T>
 	CONSTEXPR iterator<T>& iterator<T>::operator-(const size_t& offset)
 	{
 		m_Ptr -= offset;
 		return *this;
 	}
 
-	template<class T>
+	template<typename T>
 	CONSTEXPR iterator<T>& iterator<T>::operator--()
 	{
 		m_Ptr--;
 		return *this;
 	}
 
-	template<class T>
+	template<typename T>
 	CONSTEXPR iterator<T> iterator<T>::operator--(int)
 	{
 		iterator it = *this;
@@ -255,13 +264,19 @@ namespace mystl
 		return it;
 	}
 
-	template<class T>
+	template<typename T>
+	CONSTEXPR ptrdiff_t iterator<T>::operator-(iterator other)
+	{
+		return (m_Ptr - other.m_Ptr);
+	}
+
+	template<typename T>
 	CONSTEXPR bool iterator<T>::operator==(const iterator& other) const
 	{
 		return m_Ptr == other.m_Ptr;
 	}
 
-	template<class T>
+	template<typename T>
 	CONSTEXPR bool iterator<T>::operator!=(const iterator& other) const
 	{
 		return !(*this == other);
@@ -282,7 +297,7 @@ namespace mystl
 	///		auto& endIt = arr.crend();
 	/// 
 	///////////////////////////////////////////////////////////////////////////////////////
-	template<class T>
+	template<typename T>
 	class const_reverse_iterator
 	{
 	public:
@@ -319,45 +334,45 @@ namespace mystl
 					iterator_type			m_ConstRevPtr = nullptr;
 	};
 
-	template<class T>
+	template<typename T>
 	CONSTEXPR const_reverse_iterator<T>::const_reverse_iterator(iterator_type ptr) : m_ConstRevPtr(ptr) { }
 
-	template<class T>
+	template<typename T>
 	CONSTEXPR typename const_reverse_iterator<T>::const_reference_type
 		const_reverse_iterator<T>::operator[](const size_t& offset)
 	{
 		return *(m_ConstRevPtr - offset);
 	}
 
-	template<class T>
+	template<typename T>
 	CONSTEXPR typename const_reverse_iterator<T>::const_reference_type
 		const_reverse_iterator<T>::operator*()
 	{
 		return *m_ConstRevPtr;
 	}
 
-	template<class T>
+	template<typename T>
 	CONSTEXPR typename const_reverse_iterator<T>::const_pointer_type
 		const_reverse_iterator<T>::operator->()
 	{
 		return m_ConstRevPtr;
 	}
 
-	template<class T>
+	template<typename T>
 	CONSTEXPR const_reverse_iterator<T>& const_reverse_iterator<T>::operator++()
 	{
 		m_ConstRevPtr--;
 		return *this;
 	}
 
-	template<class T>
+	template<typename T>
 	CONSTEXPR const_reverse_iterator<T>& const_reverse_iterator<T>::operator+(const size_t& offset)
 	{
 		m_ConstRevPtr -= offset;
 		return *this;
 	}
 
-	template<class T>
+	template<typename T>
 	CONSTEXPR const_reverse_iterator<T> const_reverse_iterator<T>::operator++(int)
 	{
 		const_reverse_iterator it = *this;
@@ -365,21 +380,21 @@ namespace mystl
 		return it;
 	}
 
-	template<class T>
+	template<typename T>
 	CONSTEXPR const_reverse_iterator<T>& const_reverse_iterator<T>::operator--()
 	{
 		m_ConstRevPtr++;
 		return *this;
 	}
 
-	template<class T>
+	template<typename T>
 	CONSTEXPR const_reverse_iterator<T>& const_reverse_iterator<T>::operator-(const size_t& offset)
 	{
 		m_ConstRevPtr += offset;
 		return *this;
 	}
 
-	template<class T>
+	template<typename T>
 	CONSTEXPR const_reverse_iterator<T> const_reverse_iterator<T>::operator--(int)
 	{
 		const_reverse_iterator it = *this;
@@ -387,13 +402,13 @@ namespace mystl
 		return it;
 	}
 
-	template<class T>
+	template<typename T>
 	CONSTEXPR bool const_reverse_iterator<T>::operator==(const const_reverse_iterator& other) const
 	{
 		return m_ConstRevPtr == other.m_ConstRevPtr;
 	}
 
-	template<class T>
+	template<typename T>
 	CONSTEXPR bool const_reverse_iterator<T>::operator!=(const const_reverse_iterator& other) const
 	{
 		return !(*this == other);
@@ -414,7 +429,7 @@ namespace mystl
 	///		auto& endIt = arr.rend();
 	/// 
 	///////////////////////////////////////////////////////////////////////////////////////
-	template<class T>
+	template<typename T>
 	class reverse_iterator
 	{
 	public:
@@ -451,45 +466,45 @@ namespace mystl
 					iterator_type		m_RevPtr = nullptr;
 	};
 
-	template<class T>
+	template<typename T>
 	CONSTEXPR reverse_iterator<T>::reverse_iterator(iterator_type ptr) : m_RevPtr(ptr) { }
 
-	template<class T>
+	template<typename T>
 	CONSTEXPR typename reverse_iterator<T>::reference_type
 		reverse_iterator<T>::operator[](const size_t& offset)
 	{
 		return *(m_RevPtr - offset);
 	}
 
-	template<class T>
+	template<typename T>
 	CONSTEXPR typename reverse_iterator<T>::reference_type
 		reverse_iterator<T>::operator*()
 	{
 		return *m_RevPtr;
 	}
 
-	template<class T>
+	template<typename T>
 	CONSTEXPR typename reverse_iterator<T>::pointer_type
 		reverse_iterator<T>::operator->()
 	{
 		return m_RevPtr;
 	}
 
-	template<class T>
+	template<typename T>
 	CONSTEXPR reverse_iterator<T>& reverse_iterator<T>::operator++()
 	{
 		m_RevPtr--;
 		return *this;
 	}
 
-	template<class T>
+	template<typename T>
 	CONSTEXPR reverse_iterator<T>& reverse_iterator<T>::operator+(const size_t& offset)
 	{
 		m_RevPtr -= offset;
 		return *this;
 	}
 
-	template<class T>
+	template<typename T>
 	CONSTEXPR reverse_iterator<T> reverse_iterator<T>::operator++(int)
 	{
 		reverse_iterator it = *this;
@@ -497,21 +512,21 @@ namespace mystl
 		return it;
 	}
 
-	template<class T>
+	template<typename T>
 	CONSTEXPR reverse_iterator<T>& reverse_iterator<T>::operator--()
 	{
 		m_RevPtr++;
 		return *this;
 	}
 
-	template<class T>
+	template<typename T>
 	CONSTEXPR reverse_iterator<T>& reverse_iterator<T>::operator-(const size_t& offset)
 	{
 		m_RevPtr += offset;
 		return *this;
 	}
 
-	template<class T>
+	template<typename T>
 	CONSTEXPR reverse_iterator<T> reverse_iterator<T>::operator--(int)
 	{
 		reverse_iterator it = *this;
@@ -519,13 +534,13 @@ namespace mystl
 		return it;
 	}
 
-	template<class T>
+	template<typename T>
 	CONSTEXPR bool reverse_iterator<T>::operator==(const reverse_iterator& other) const
 	{
 		return m_RevPtr == other.m_RevPtr;
 	}
 
-	template<class T>
+	template<typename T>
 	CONSTEXPR bool reverse_iterator<T>::operator!=(const reverse_iterator& other) const
 	{
 		return !(*this == other);

@@ -33,9 +33,10 @@ namespace mystl {
 	/// 
 	///////////////////////////////////////////////////////////////////////////////////////
 
-	template<class T, size_t m_Size = 1>
+	template<typename T, size_t m_Size = 1>
 	class array
 	{
+	// typedefs
 	public:
 		using		value_type				= T;
 
@@ -51,99 +52,106 @@ namespace mystl {
 		using		reverse_iterator		= reverse_iterator<iterator>;
 		using		const_reverse_iterator	= const_reverse_iterator<const_iterator>;
 
+	// iterator functions
 	public:
-		CONSTEXPR	const_iterator			cbegin();
-		CONSTEXPR	const_iterator			cend();
+		CONSTEXPR	const_iterator			cbegin() const;
+		CONSTEXPR	const_iterator			cend() const;
 
 		CONSTEXPR	iterator				begin();
 		CONSTEXPR	iterator				end();
 
-		CONSTEXPR	const_reverse_iterator	crbegin();
-		CONSTEXPR	const_reverse_iterator	crend();
+		CONSTEXPR	const_reverse_iterator	crbegin() const;
+		CONSTEXPR	const_reverse_iterator	crend() const;
 
 		CONSTEXPR	reverse_iterator		rbegin();
 		CONSTEXPR	reverse_iterator		rend();
 
+	// size functions
 	public:
 		CONSTEXPR	size_t					size() const;
 		CONSTEXPR	size_t					max_size() const;
+
 		CONSTEXPR	bool					empty() const;
 
+	// access functions
 	public:
 		CONSTEXPR	reference_type			operator[](const size_t& index);
 		CONSTEXPR	const_reference_type	operator[](const size_t& index) const;
 		CONSTEXPR	const_reference_type	at(const size_t& index) const;
 	
-		CONSTEXPR	reference_type			front();
-		CONSTEXPR	reference_type			back();
+		CONSTEXPR	reference_type			front() const;
+		CONSTEXPR	reference_type			back() const;
 
 		CONSTEXPR	pointer					data();
 		CONSTEXPR	const_pointer			data() const;
 
+	// mutators
 	public:
 					[[noreturn]] void		fill(const_reference_type filler);
 					[[noreturn]] void		swap(array& other);
 
+	// constructor/destructor
 	public:
 											array()  = default;
 											~array() = default;
 
+	// variables
 	private:
 					value_type				m_Data[m_Size]{};
 	};
 
 	template<typename T, size_t m_Size>
 	CONSTEXPR typename array<T, m_Size>::const_iterator
-	array<T, m_Size>::cbegin()
+		array<T, m_Size>::cbegin() const
 	{
 		return const_iterator(m_Data);
 	}
 
 	template<typename T, size_t m_Size>
 	CONSTEXPR typename array<T, m_Size>::const_iterator
-	array<T, m_Size>::cend()
+		array<T, m_Size>::cend() const
 	{
 		return const_iterator(m_Data + m_Size);
 	}
 
 	template<typename T, size_t m_Size>
 	CONSTEXPR typename array<T, m_Size>::iterator
-	array<T, m_Size>::begin()
+		array<T, m_Size>::begin()
 	{
 		return iterator(m_Data);
 	}
 
 	template<typename T, size_t m_Size>
 	CONSTEXPR typename array<T, m_Size>::iterator
-	array<T, m_Size>::end()
+		array<T, m_Size>::end()
 	{
 		return iterator(m_Data + m_Size);
 	}
 
-	template<class T, size_t m_Size>
+	template<typename T, size_t m_Size>
 	CONSTEXPR typename array<T, m_Size>::const_reverse_iterator
-	array<T, m_Size>::crbegin()
+		array<T, m_Size>::crbegin() const
 	{
 		return const_reverse_iterator(cend());
 	}
 
-	template<class T, size_t m_Size>
+	template<typename T, size_t m_Size>
 	CONSTEXPR typename array<T, m_Size>::const_reverse_iterator
-	array<T, m_Size>::crend()
+		array<T, m_Size>::crend() const
 	{
 		return const_reverse_iterator(cbegin());
 	}
 
-	template<class T, size_t m_Size>
+	template<typename T, size_t m_Size>
 	CONSTEXPR typename array<T, m_Size>::reverse_iterator
-	array<T, m_Size>::rbegin()
+		array<T, m_Size>::rbegin()
 	{
 		return reverse_iterator(end());
 	}
 
-	template<class T, size_t m_Size>
+	template<typename T, size_t m_Size>
 	CONSTEXPR typename array<T, m_Size>::reverse_iterator
-	array<T, m_Size>::rend()
+		array<T, m_Size>::rend()
 	{
 		return reverse_iterator(begin());
 	}
@@ -191,7 +199,7 @@ namespace mystl {
 
 	template<typename T, size_t m_Size>
 	CONSTEXPR typename array<T, m_Size>::reference_type
-		array<T, m_Size>::front()
+		array<T, m_Size>::front() const
 	{
 		EMPTY_ARRAY();
 		return m_Data[0];
@@ -199,7 +207,7 @@ namespace mystl {
 
 	template<typename T, size_t m_Size>
 	CONSTEXPR typename array<T, m_Size>::reference_type
-		array<T, m_Size>::back()
+		array<T, m_Size>::back() const
 	{
 		EMPTY_ARRAY();
 		return m_Data[m_Size - 1];
