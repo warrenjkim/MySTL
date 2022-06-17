@@ -41,10 +41,10 @@ namespace mystl {
 		using		value_type				= T;
 
 		using		reference_type			= value_type&;
-		using		pointer					= value_type*;
+		using		pointer_type					= value_type*;
 
 		using		const_reference_type	= const value_type&;
-		using		const_pointer			= const value_type*;
+		using		const_pointer_type			= const value_type*;
 
 		using		iterator				= iterator<array<T, m_Size>>;
 		using		const_iterator			= const_iterator<array<T, m_Size>>;
@@ -79,11 +79,14 @@ namespace mystl {
 		CONSTEXPR	const_reference_type	operator[](const size_t& index) const;
 		CONSTEXPR	const_reference_type	at(const size_t& index) const;
 	
-		CONSTEXPR	reference_type			front() const;
-		CONSTEXPR	reference_type			back() const;
+		CONSTEXPR	reference_type			front();
+		CONSTEXPR	reference_type			back();
 
-		CONSTEXPR	pointer					data();
-		CONSTEXPR	const_pointer			data() const;
+		CONSTEXPR	const_reference_type	front() const;
+		CONSTEXPR	const_reference_type	back() const;
+
+		CONSTEXPR	pointer_type					data();
+		CONSTEXPR	const_pointer_type			data() const;
 
 	// mutators
 	public:
@@ -199,7 +202,7 @@ namespace mystl {
 
 	template<typename T, size_t m_Size>
 	CONSTEXPR typename array<T, m_Size>::reference_type
-		array<T, m_Size>::front() const
+		array<T, m_Size>::front()
 	{
 		EMPTY_ARRAY();
 		return m_Data[0];
@@ -207,6 +210,22 @@ namespace mystl {
 
 	template<typename T, size_t m_Size>
 	CONSTEXPR typename array<T, m_Size>::reference_type
+		array<T, m_Size>::back()
+	{
+		EMPTY_ARRAY();
+		return m_Data[m_Size - 1];
+	}
+
+	template<typename T, size_t m_Size>
+	CONSTEXPR typename array<T, m_Size>::const_reference_type
+		array<T, m_Size>::front() const
+	{
+		EMPTY_ARRAY();
+		return m_Data[0];
+	}
+
+	template<typename T, size_t m_Size>
+	CONSTEXPR typename array<T, m_Size>::const_reference_type
 		array<T, m_Size>::back() const
 	{
 		EMPTY_ARRAY();
@@ -214,14 +233,14 @@ namespace mystl {
 	}
 
 	template<typename T, size_t m_Size>
-	CONSTEXPR typename array<T, m_Size>::pointer
+	CONSTEXPR typename array<T, m_Size>::pointer_type
 		array<T, m_Size>::data()
 	{
 		return m_Data;
 	}
 
 	template<typename T, size_t m_Size>
-	CONSTEXPR typename array<T, m_Size>::const_pointer
+	CONSTEXPR typename array<T, m_Size>::const_pointer_type
 		array<T, m_Size>::data() const
 	{
 		return m_Data;

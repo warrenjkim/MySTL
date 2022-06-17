@@ -1,7 +1,7 @@
 #include <iostream>
 #include "data_structures/array.h"
 #include "data_structures/vector.h"
-#include <vector>
+#include "data_structures/list.h"
 
 #define LOG(x) std::cout << x << std::endl
 
@@ -60,6 +60,10 @@ int main() {
 	{
 		LOG(x);
 	}
+
+	mystl::list<int> l1;
+
+	LOG(l1.size());
 
 /*
 	mystl::vector<int> vec;

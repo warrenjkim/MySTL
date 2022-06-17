@@ -2,7 +2,6 @@
 
 #define CONSTEXPR inline constexpr
 
-#include <iostream>
 namespace mystl
 {
 	template<typename T>
@@ -20,6 +19,7 @@ namespace mystl
 
 		using		iterator				= iterator<vector<T>>;
 		using		const_iterator			= const_iterator<vector<T>>;
+
 		using		reverse_iterator		= reverse_iterator<iterator>;
 		using		const_reverse_iterator	= const_reverse_iterator<const_iterator>;
 
@@ -45,31 +45,35 @@ namespace mystl
 
 		CONSTEXPR	bool					empty() const;
 
-	// access functions						(177 - 217)
+	// access functions						(177 - 234)
 	public:
 		CONSTEXPR	reference_type			operator[](const size_t& index);
 		CONSTEXPR	const_reference_type	operator[](const size_t& index) const;
 		CONSTEXPR	const_reference_type	at(const size_t& index) const;
 
-		CONSTEXPR	reference_type			front() const;
-		CONSTEXPR	reference_type			back() const;
+		CONSTEXPR	reference_type			front();
+		CONSTEXPR	reference_type			back();
+
+		CONSTEXPR	const_reference_type	front() const;
+		CONSTEXPR	const_reference_type	back() const;
 
 		CONSTEXPR	pointer_type			data();
 		CONSTEXPR	const_pointer_type		data() const;
 
-	// mutators								(219 - 312)
+	// mutators								(236 - 330)
 	public:
 		CONSTEXPR	reference_type			push_back(T&& element);
 		CONSTEXPR	reference_type			push_back(const_reference_type element);
 
 		template<typename... Args>
 		CONSTEXPR	reference_type			emplace_back(Args&&... args);
+		
 		template<typename... Args>
 		CONSTEXPR	iterator				emplace(iterator position, Args&&... args);
 
 		CONSTEXPR	reference_type			pop_back();
 
-	// mutators								(314 - 341)
+	// mutators								(332 - 359)
 	public:
 		CONSTEXPR	void					clear();
 		CONSTEXPR	void					reserve(const size_t& size);
@@ -77,7 +81,7 @@ namespace mystl
 		CONSTEXPR	void					shrink_to_fit();
 
 
-	// constructor/destructor				(343 - 380)
+	// constructor/destructor				(361 - 398)
 	public:
 		CONSTEXPR							vector();
 		CONSTEXPR							vector(const size_t& capacity);
@@ -85,7 +89,7 @@ namespace mystl
 		CONSTEXPR							vector(const size_t& capacity, const_reference_type fillElement);
 											~vector();
 
-	// helpers								(383 - 426)
+	// helpers								(401 - 443)
 	private:
 		CONSTEXPR	void					realloc(const size_t& newCapacity);
 		CONSTEXPR	size_t					pow(const size_t& num, const size_t& power) const;
@@ -195,13 +199,25 @@ namespace mystl
 	}
 
 	template<typename T>
-	CONSTEXPR typename vector<T>::reference_type vector<T>::front() const
+	CONSTEXPR typename vector<T>::reference_type vector<T>::front()
 	{
 		return m_Data[0];
 	}
 
 	template<typename T>
-	CONSTEXPR typename vector<T>::reference_type vector<T>::back() const
+	CONSTEXPR typename vector<T>::reference_type vector<T>::back()
+	{
+		return m_Data[m_Size - 1];
+	}
+
+	template<typename T>
+	CONSTEXPR typename vector<T>::const_reference_type vector<T>::front() const
+	{
+		return m_Data[0];
+	}
+
+	template<typename T>
+	CONSTEXPR typename vector<T>::const_reference_type vector<T>::back() const
 	{
 		return m_Data[m_Size - 1];
 	}
@@ -267,6 +283,7 @@ namespace mystl
 		vector<T>::emplace(iterator position, Args&&... args)
 	{
 		ptrdiff_t diff = end() - position;
+
 		if (m_Size == 0)
 		{
 			emplace_back(args...);
@@ -279,26 +296,35 @@ namespace mystl
 			realloc(growth);
 		}
 
-		T* temp = (T*)::operator new(diff);
+		T* temp = new T[diff]{};
 		iterator it = begin() + diff;
+		size_t i = 0;
+
 		while (it != end())
 		{
-			*temp = *it;
-			it++;
+			temp[i++] = *(it++);
 		}
+
+		size_t size = i;
 
 		m_Data[diff] = T(std::forward<Args>(args)...);
 
 		it = begin() + diff + 1;
+		i = 0;
+
 		while (diff > 0)
 		{
-			*it = *temp;
+			*(it++) = temp[i++];
 
-			temp++;
-			it++;
 			diff--;
 		}
 
+		
+		for (size_t i = 0; i < size; i++)
+		{
+			temp[i].~T();
+		}
+		::operator delete(temp, size * sizeof(T));
 		m_Size++;
 		return position;
 	}
@@ -396,7 +422,7 @@ namespace mystl
 
 		for (size_t i = 0; i < m_Size; i++)
 		{
-			newBlock[i] = std::move(m_Data[i]);
+			newBlock[i] = m_Data[i];
 		}
 
 		for (size_t i = 0; i < m_Size; i++)

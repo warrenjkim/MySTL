@@ -111,9 +111,9 @@ namespace mystl
 	}
 
 	template<typename T>
-	CONSTEXPR ptrdiff_t const_iterator<T>::operator-(const_iterator other)
+	CONSTEXPR typename const_iterator<T>::ptrdiff_t const_iterator<T>::operator-(const_iterator other)
 	{
-		return ptrdiff_t(m_ConstPtr - other);
+		return m_ConstPtr - other.m_ConstPtr;
 	}
 
 	template<typename T>
@@ -167,6 +167,7 @@ namespace mystl
 		using		value_type		= typename T::value_type;
 		using		pointer_type	= value_type*;
 		using		reference_type	= value_type&;
+		using		ptrdiff_t = std::ptrdiff_t;
 
 	public:
 		CONSTEXPR					iterator(pointer_type ptr);
@@ -265,7 +266,7 @@ namespace mystl
 	}
 
 	template<typename T>
-	CONSTEXPR ptrdiff_t iterator<T>::operator-(iterator other)
+	CONSTEXPR typename iterator<T>::ptrdiff_t iterator<T>::operator-(iterator other)
 	{
 		return (m_Ptr - other.m_Ptr);
 	}
