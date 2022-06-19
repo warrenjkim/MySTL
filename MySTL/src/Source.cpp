@@ -61,10 +61,49 @@ int main() {
 		LOG(x);
 	}
 
+	LOG("\nLIST");
 	mystl::list<int> l1;
 
-	LOG(l1.size());
+	LOG("initialized empty list");
+	LOG("list size: " << l1.size());
+	
+	l1.push_back(1);
+	LOG("\npush back 1: " << l1.front());
+	LOG("list size: " << l1.size());
 
+	l1.push_front(2);
+	LOG("\npush front 2: " << l1.front());
+	LOG("list size: " << l1.size());
+	
+	l1.emplace_front(3);
+	LOG("\nemplace front 3: " << l1.front());
+	LOG("list size: " << l1.size());
+
+	l1.emplace_back(0);
+	LOG("\nemplace back 0: " << l1.back());
+	LOG("list size: " << l1.size());
+
+	auto lvec = l1.print();
+
+	for (const auto& x : *lvec)
+	{
+		std::cout << x << "->";
+	}
+	std::cout << "nullptr" << std::endl;
+	delete lvec;
+
+	l1.reverse();
+	LOG("\nreverse list");
+	
+	lvec = l1.print();
+
+	for (const auto& x : *lvec)
+	{
+		std::cout << x << "->";
+	}
+	std::cout << "nullptr" << std::endl;
+
+	
 /*
 	mystl::vector<int> vec;
 	std::cout << vec.max_size();
