@@ -17,12 +17,12 @@ are partitioned into subgroups: basic, trees, tables/maps/skip list, and graphs.
 - Graphs are reperesented via an Adjacency Matrix and an Adjacency List. 
 
 ### __Basic__ ###
-- [Const_Iterator](Const_Iterator "Goto ### __Const Iterator __ ###")
-- [Iterator](Iterator "Goto ### __Iterator __ ###")
-- [Const_Reverse_Iterator](Const_Iterator "Goto ### __Const Reverse Iterator __ ###")
-- [Reverse_Iterator](Reverse_Iterator "Goto ### __Reverse Iterator __ ###")
-- [Array](Array "Goto ### __Array__ ###")
-- [Vector](Vector "Goto ### __Vector__ ###")
+- [Const_Iterator](#const-iterator "Goto const-iterator")
+- [Iterator](#iterator "Goto iterator")
+- [Const_Reverse_Iterator](#const-reverse-iterator "Goto const-reverse-iterator")
+- [Reverse_Iterator](#reverse-iterator "Goto reverse-iterator")
+- [Array](#array "Goto array")
+- [Vector](#vector "Goto array")
 
     
 ### __WIP__ ###
