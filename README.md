@@ -134,20 +134,20 @@ Typedefs               | Description
 `const_pointer_type`   | const value type pointer
 `const_reference_type` | const value type reference
 
-Function Name                                    | Return Type                        | Description                                                                    | Overloadable
------------------------------------------------- | :--------------------------------: | :----------------------------------------------------------------------------: | :----------:
-`const_reverse_iterator(const_pointer_type ptr)` | `N/A`                              | constructor                                                                    | N
-`operator[](const size_t& offset)`               | `const_reference_type`             | returns a const reference at a given pointer offset                            | Y
-`operator*()`                                    | `const_reference_type`             | dereference operator                                                           | N
-`operator->()`                                   | `const_pointer_type`               | pointer operator                                                               | N
-`operator++`                                     | `const_reverse_iterator reference` | (prefix) decrements const_reverse_iterator                                     | Y
-`operator++(int)`                                | `const_reverse_iterator`           | (postfix) decrements const_reverse_iterator                                    | Y
-`operator+(const size_t& offset)`                | `const_reverse_iterator reference` | decrements const_reverse_iterator by an offset                                 | Y
-`operator++`                                     | `const_reverse_iterator reference` | (prefix) increments const_reverse_iterator                                     | Y
-`operator++(int)`                                | `const__reverse_iterator`          | (postfix) increments const_reverse_iterator                                    | Y
-`operator-(const size_t& offset)`                | `const_reverse_iterator reference` | increments const_reverse_iterator by an offset                                 | Y
-`operator==(const_iterator& other) const`        | `bool`                             | returns true if both const_reverse_iterators point to the same address, false  | N                                                                                      otherwise
-`operator!=(const_iterator& othter) const`       | `bool`                             | returns true if the two const_reverse_iterators point to different addresses,  | N                                                                                      false otherwise
+Function Name                                    | Return Type                        | Description                                                                                   | Overloadable
+------------------------------------------------ | :--------------------------------: | :-------------------------------------------------------------------------------------------: | :----------:
+`const_reverse_iterator(const_pointer_type ptr)` | `N/A`                              | constructor                                                                                   | N
+`operator[](const size_t& offset)`               | `const_reference_type`             | returns a const reference at a given pointer offset                                           | Y
+`operator*()`                                    | `const_reference_type`             | dereference operator                                                                          | N
+`operator->()`                                   | `const_pointer_type`               | pointer operator                                                                              | N
+`operator++`                                     | `const_reverse_iterator reference` | (prefix) decrements const_reverse_iterator                                                    | Y
+`operator++(int)`                                | `const_reverse_iterator`           | (postfix) decrements const_reverse_iterator                                                   | Y
+`operator+(const size_t& offset)`                | `const_reverse_iterator reference` | decrements const_reverse_iterator by an offset                                                | Y
+`operator++`                                     | `const_reverse_iterator reference` | (prefix) increments const_reverse_iterator                                                    | Y
+`operator++(int)`                                | `const__reverse_iterator`          | (postfix) increments const_reverse_iterator                                                   | Y
+`operator-(const size_t& offset)`                | `const_reverse_iterator reference` | increments const_reverse_iterator by an offset                                                | Y
+`operator==(const_iterator& other) const`        | `bool`                             | returns true if both const_reverse_iterators point to the same address, false otherwise       | N
+`operator!=(const_iterator& othter) const`       | `bool`                             | returns true if the two const_reverse_iterators point to different addresses, false otherwise | N
 
 Variables       | Type                 | Description
 --------------- | :------------------: | :-----------------------:
