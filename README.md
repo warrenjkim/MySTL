@@ -64,12 +64,18 @@ Typedefs               | Description
 `const_reference_type` | const value type reference
 `ptrdiff_t`            | pointer difference: used for pointer arithmetic
 
-Function Name                              | Return Type                | Description                                                                            | Overloadable
+Constructor                                | Return Type                | Description                                                                            | Overloadable
 ------------------------------------------ | :------------------------: | :------------------------------------------------------------------------------------: | :----------:
 `const_iterator(const_pointer_type ptr)`   | `N/A`                      | constructor                                                                            | N
+
+Element Access                             | Return Type                | Description                                                                            | Overloadable
+------------------------------------------ | :------------------------: | :------------------------------------------------------------------------------------: | :----------:
 `operator[](const size_t& offset)`         | `const_reference_type`     | returns a const reference at a given pointer offset                                    | Y
 `operator*()`                              | `const_reference_type`     | dereference operator                                                                   | N
 `operator->()`                             | `const_pointer_type`       | pointer operator                                                                       | N
+
+Modifier Functions                         | Return Type                | Description                                                                            | Overloadable
+------------------------------------------ | :------------------------: | :------------------------------------------------------------------------------------: | :----------:
 `operator++`                               | `const_iterator reference` | (prefix) increments const_iterator                                                     | Y
 `operator++(int)`                          | `const_iterator`           | (postfix) increments const_iterator                                                    | Y
 `operator+(const size_t& offset)`          | `const_iterator reference` | increments const_iterator by an offset                                                 | Y
@@ -77,6 +83,9 @@ Function Name                              | Return Type                | Descri
 `operator++(int)`                          | `const_iterator`           | (postfix) decrements const_iterator                                                    | Y
 `operator-(const size_t& offset)`          | `const_iterator reference` | decrements const_iterator by an offset                                                 | Y
 `operator-(const_iterator other)`          | `ptrdiff_t`                | returns the pointer difference between two const_iterators                             | Y
+
+Equality Operators                         | Return Type                | Description                                                                            | Overloadable
+------------------------------------------ | :------------------------: | :------------------------------------------------------------------------------------: | :----------:
 `operator==(const_iterator& other) const`  | `bool`                     | returns true if both const_iterators point to the same address, false otherwise        | N
 `operator!=(const_iterator& othter) const` | `bool`                     | returns true if the two const_iterators point to different addresses, false otherwise  | N
 
