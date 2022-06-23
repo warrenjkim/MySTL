@@ -3,6 +3,8 @@
 
 #define CONSTEXPR inline constexpr
 
+#include <vector>
+
 // TODO: rearrange pre/postfix increment functions
 //		 document line numbers.
 namespace mystl
@@ -15,33 +17,362 @@ namespace mystl
 	/// error/bounds checking.
 	/// 
 	///////////////////////////////////////////////////////////////////////////////////////
+	
+	template<class C>
+	class const_iterator
+	{
+	// typedefs
+	public:
+		using value_type = typename C::value_type;
+		using const_pointer_type = const value_type*;
+		using const_reference_type = const value_type&;
+		using ptrdiff_t = int;
+
+	// constructors
+	public:
+		CONSTEXPR const_iterator(const_pointer_type ptr);
+		CONSTEXPR const_iterator(const_pointer_type& ptr);
+		~const_iterator() = default;
+
+	// element access
+	public:
+		 CONSTEXPR const_reference_type operator[](const size_t& offset) const;
+		CONSTEXPR const_reference_type operator*() const;
+		CONSTEXPR const_pointer_type operator->() const;
+
+	// modifier functions: increment
+	public:
+		 CONSTEXPR const_iterator& operator++();
+		 CONSTEXPR const_iterator operator++(int);
+
+		 CONSTEXPR const_iterator& operator+=(const size_t& offset);
+		 CONSTEXPR const_iterator& operator+(const size_t& offset) const;
+
+	// modifier functions: decrement
+	public:
+		 CONSTEXPR const_iterator& operator--();
+		 CONSTEXPR const_iterator operator--(int);
+
+		 CONSTEXPR const_iterator& operator-=(const size_t& offset);
+		 CONSTEXPR const_iterator& operator-(const size_t& offset) const;
+	
+	// pointer difference
+	public:
+		 CONSTEXPR ptrdiff_t operator-(const const_iterator& other) const;
+
+	// equality operators
+	public:
+		CONSTEXPR bool operator==(const const_iterator& other) const;
+		CONSTEXPR bool operator!=(const const_iterator& other) const;
+		CONSTEXPR bool operator<(const const_iterator& other) const;
+		CONSTEXPR bool operator>(const const_iterator& other) const;
+		CONSTEXPR bool operator<=(const const_iterator& other) const;
+		CONSTEXPR bool operator>=(const const_iterator& other) const;
+
+	// variables
+	protected:
+		const_pointer_type m_Ptr = nullptr;
+	};
+
+	template<class C>
+	CONSTEXPR const_iterator<C>::const_iterator(const_pointer_type ptr) : m_Ptr(ptr)
+	{ }
+	
+	template<class C>
+	CONSTEXPR const_iterator<C>::const_iterator(const_pointer_type& ptr) : m_Ptr(ptr)
+	{ }
+	
+	template<class C>
+	CONSTEXPR typename const_iterator<C>::const_reference_type const_iterator<C>::operator[](const size_t& offset) const
+	{
+		return *(m_Ptr + offset);
+	}
+
+	template<class C>
+	CONSTEXPR typename const_iterator<C>::const_reference_type const_iterator<C>::operator*() const
+	{
+		return *m_Ptr;
+	}
+
+	template<class C>
+	CONSTEXPR typename const_iterator<C>::const_pointer_type const_iterator<C>::operator->() const
+	{
+		return m_Ptr;
+	}
+
+	template<class C>
+	CONSTEXPR const_iterator<C>& const_iterator<C>::operator++()
+	{
+		m_Ptr++;
+		return *this;
+	}
+
+	template<class C>
+	CONSTEXPR const_iterator<C>& const_iterator<C>::operator+=(const size_t& offset)
+	{
+		m_Ptr += offset;
+		return *this;
+	}
+
+	template<class C>
+	CONSTEXPR const_iterator<C>& const_iterator<C>::operator+(const size_t& offset) const
+	{
+		const_iterator it = *this;
+		it += offset;
+		return *this;
+	}
+
+	template<class C>
+	CONSTEXPR const_iterator<C> const_iterator<C>::operator++(int)
+	{
+		const_iterator it = *this;
+		++(*this);
+		return it;
+	}
+
+	template<class C>
+	CONSTEXPR const_iterator<C>& const_iterator<C>::operator--()
+	{
+		m_Ptr--;
+		return *this;
+	}
+
+
+	template<class C>
+	CONSTEXPR const_iterator<C>& const_iterator<C>::operator-=(const size_t& offset)
+	{
+		return *this += -offset;
+	}
+
+	template<class C>
+	CONSTEXPR const_iterator<C>& const_iterator<C>::operator-(const size_t& offset) const
+	{
+		const_iterator it = *this;
+		it -= offset;
+		return it;
+	}
+
+	template<class C>
+	CONSTEXPR const_iterator<C> const_iterator<C>::operator--(int)
+	{
+		const_iterator it = *this;
+		--(*this);
+		return it;
+	}
+
+	template<class C>
+	CONSTEXPR typename const_iterator<C>::ptrdiff_t const_iterator<C>::operator-(const const_iterator& other) const
+	{
+		return m_Ptr - other.m_Ptr;
+	}
+
+	template<class C>
+	CONSTEXPR bool const_iterator<C>::operator==(const const_iterator& other) const
+	{
+		return m_Ptr == other.m_Ptr;
+	}
+
+	template<class C>
+	CONSTEXPR bool const_iterator<C>::operator!=(const const_iterator& other) const
+	{
+		return !(*this == other);
+	}
+
+	template<class C>
+	CONSTEXPR bool const_iterator<C>::operator<(const const_iterator& other) const
+	{
+		return m_Ptr < other.m_Ptr;
+	}
+
+	template<class C>
+	CONSTEXPR bool const_iterator<C>::operator>(const const_iterator& other) const
+	{
+		return other < *this;
+	}
+
+	template<class C>
+	CONSTEXPR bool const_iterator<C>::operator<=(const const_iterator& other) const
+	{
+		return !(other < *this);
+	}
+
+	template<class C>
+	CONSTEXPR bool const_iterator<C>::operator>=(const const_iterator& other) const
+	{
+		return !(*this < other);
+	}
+}
+
+namespace mystl
+{
+	template<class C>
+	class iterator : public const_iterator<C>
+	{
+	// base class typedef
+	public:
+		using base_class = const_iterator<C>;
+
+	// typedefs
+	public:
+		using value_type = typename C::value_type;
+		using pointer_type = value_type*;
+		using reference_type = value_type&;
+		using ptrdiff_t = int;
+
+	// constructors
+	public:
+		CONSTEXPR iterator(pointer_type ptr);
+		~iterator() = default;
+
+	// element access
+	public:
+		CONSTEXPR reference_type operator[](const size_t& offset) const;
+		CONSTEXPR reference_type operator*() const;
+		CONSTEXPR pointer_type operator->() const;
+
+	// modifier functions: increment
+	public:
+		 CONSTEXPR iterator& operator++();
+		 CONSTEXPR iterator operator++(int);
+		 CONSTEXPR iterator& operator+=(const size_t& offset);
+		 CONSTEXPR iterator operator+(const size_t& offset) const;
+
+	// modifier functions: decrement
+	public:
+		 CONSTEXPR iterator& operator--();
+		 CONSTEXPR iterator operator--(int);
+
+		 CONSTEXPR iterator& operator-=(const size_t& offset);
+		 CONSTEXPR iterator& operator-(const size_t& offset) const;
+		 CONSTEXPR ptrdiff_t operator-(const iterator& other) const;
+
+	// variables
+	private:
+		//pointer_type m_Ptr = nullptr;
+	};
+
+	template<class C>
+	CONSTEXPR iterator<C>::iterator(pointer_type ptr) : const_iterator<C>(ptr)
+	{
+
+	}
+
+	template<class C>
+	CONSTEXPR typename iterator<C>::reference_type iterator<C>::operator[](const size_t& offset) const
+	{
+		return const_cast<reference_type>(base_class::operator[](offset));
+	}
+
+	template<class C>
+	CONSTEXPR typename iterator<C>::reference_type iterator<C>::operator*() const
+	{
+		return const_cast<reference_type>(base_class::operator*());
+	}
+
+	template<class C>
+	CONSTEXPR typename iterator<C>::pointer_type iterator<C>::operator->() const
+	{
+		return this->m_Ptr;
+	}
+
+	template<class C>
+	CONSTEXPR iterator<C>& iterator<C>::operator++()
+	{
+		base_class::operator++();
+		return *this;
+	}
+
+	template<class C>
+	CONSTEXPR iterator<C>& iterator<C>::operator+=(const size_t& offset)
+	{
+		base_class::operator+=(offset);
+		return *this;
+	}
+
+	template<class C>
+	CONSTEXPR iterator<C> iterator<C>::operator+(const size_t& offset) const
+	{
+		iterator it = *this;
+		it += offset;
+		return it;
+	}
+
+	template<class C>
+	CONSTEXPR iterator<C> iterator<C>::operator++(int)
+	{
+		iterator it = *this;
+		base_class::operator++();
+		return it;
+	}
+
+	template<class C>
+	CONSTEXPR iterator<C>& iterator<C>::operator--()
+	{
+		base_class::operator--();
+		return *this;
+	}
+
+	template<class C>
+	CONSTEXPR iterator<C> iterator<C>::operator--(int)
+	{
+		iterator it = *this;
+		base_class::operator--();
+		return it;
+	}
+
+	template<class C>
+	CONSTEXPR iterator<C>& iterator<C>::operator-=(const size_t& offset)
+	{
+		base_class::operator-=(offset);
+		return *this;
+	}
+
+	template<class C>
+	CONSTEXPR iterator<C>& iterator<C>::operator-(const size_t& offset) const
+	{
+		iterator it = *this;
+		it -= offset;
+		return *this;
+	}
+
+	template<class C>
+	CONSTEXPR ptrdiff_t iterator<C>::operator-(const iterator& other) const
+	{
+		return this->m_Ptr - other.m_Ptr;
+	}
+
+	
+}
+
+/*
+
 	template<typename T>
 	class const_iterator
 	{
 	public:
-		using		value_type				= typename T::value_type;
-		using		const_pointer_type		= const value_type*;
-		using		const_reference_type	= const value_type&;
-		using		ptrdiff_t				= int;
+		using				value_type				= typename T::value_type;
+		using				const_pointer_type		= const value_type*;
+		using				const_reference_type	= const value_type&;
+		using				ptrdiff_t				= size_t;
 
 	public:
-		CONSTEXPR							const_iterator(const_pointer_type ptr);
+		CONSTEXPR									const_iterator(const_pointer_type ptr);
 
 	public:
-		CONSTEXPR	const_reference_type	operator[](const size_t& offset);
-		CONSTEXPR	const_reference_type	operator*();
-		CONSTEXPR	const_pointer_type		operator->();
+		CONSTEXPR			const_reference_type	operator[](const size_t& offset);
+		CONSTEXPR			const_reference_type	operator*();
+		CONSTEXPR			const_pointer_type		operator->();
 
 
 	public:
-		CONSTEXPR	const_iterator&			operator++();
-		CONSTEXPR	const_iterator&			operator+(const size_t& offset);
-		CONSTEXPR	const_iterator			operator++(int);
+		 CONSTEXPR	const_iterator&			operator++();
+		 CONSTEXPR	const_iterator&			operator+(const size_t& offset);
+		 CONSTEXPR	const_iterator			operator++(int);
 
-		CONSTEXPR	const_iterator&			operator--();
-		CONSTEXPR	ptrdiff_t				operator-(const_iterator other);
-		CONSTEXPR	const_iterator&			operator-(const size_t& offset);
-		CONSTEXPR	const_iterator			operator--(int);
+		 CONSTEXPR	const_iterator&			operator--();
+		 CONSTEXPR	ptrdiff_t				operator-(const_iterator other);
+		 CONSTEXPR	const_iterator&			operator-(const size_t& offset);
+		 CONSTEXPR	const_iterator			operator--(int);
 
 
 
@@ -50,44 +381,45 @@ namespace mystl
 		CONSTEXPR	bool					operator!=(const_iterator& other) const;
 
 	private:
-					const_pointer_type		m_ConstPtr = nullptr;
+					const_pointer_type		m_Ptr = nullptr;
 	};
 
 	template<typename T>
-	CONSTEXPR const_iterator<T>::const_iterator(const_pointer_type ptr) : m_ConstPtr(ptr) { }
+	CONSTEXPR const_iterator<T>::const_iterator(const_pointer_type ptr) : m_Ptr(ptr)
+	{ }
 
 	template<typename T>
 	CONSTEXPR typename const_iterator<T>::const_reference_type
 		const_iterator<T>::operator[](const size_t& offset)
 	{
-		return *(m_ConstPtr + offset);
+		return *(m_Ptr + offset);
 	}
 
 	template<typename T>
 	CONSTEXPR typename const_iterator<T>::const_reference_type
 		const_iterator<T>::operator*()
 	{
-		return *m_ConstPtr;
+		return *m_Ptr;
 	}
 
 	template<typename T>
 	CONSTEXPR typename const_iterator<T>::const_pointer_type
 		const_iterator<T>::operator->()
 	{
-		return m_ConstPtr;
+		return m_Ptr;
 	}
 
 	template<typename T>
 	CONSTEXPR const_iterator<T>& const_iterator<T>::operator++()
 	{
-		m_ConstPtr++;
+		m_Ptr++;
 		return *this;
 	}
 
 	template<typename T>
 	CONSTEXPR const_iterator<T>& const_iterator<T>::operator+(const size_t& offset)
 	{
-		m_ConstPtr += offset;
+		m_Ptr += offset;
 		return *this;
 	}
 
@@ -102,20 +434,20 @@ namespace mystl
 	template<typename T>
 	CONSTEXPR const_iterator<T>& const_iterator<T>::operator--()
 	{
-		m_ConstPtr--;
+		m_Ptr--;
 		return *this;
 	}
 
 	template<typename T>
 	CONSTEXPR typename const_iterator<T>::ptrdiff_t const_iterator<T>::operator-(const_iterator other)
 	{
-		return m_ConstPtr - other.m_ConstPtr;
+		return m_Ptr - other.m_Ptr;
 	}
 
 	template<typename T>
 	CONSTEXPR const_iterator<T>& const_iterator<T>::operator-(const size_t& offset)
 	{
-		m_ConstPtr -= offset;
+		m_Ptr -= offset;
 		return *this;
 	}
 
@@ -130,7 +462,7 @@ namespace mystl
 	template<typename T>
 	CONSTEXPR bool const_iterator<T>::operator==(const_iterator& other) const
 	{
-		return m_ConstPtr == other.m_ConstPtr;
+		return m_Ptr == other.m_Ptr;
 	}
 
 	template<typename T>
@@ -138,10 +470,11 @@ namespace mystl
 	{
 		return !(*this == other);
 	}
-}
+	
 
 namespace mystl
 {
+	
 	///////////////////////////////////////////////////////////////////////////////////////
 	/// iterator
 	/// 
@@ -273,7 +606,7 @@ namespace mystl
 		return !(*this == other);
 	}
 }
-
+*/
 namespace mystl
 {
 	///////////////////////////////////////////////////////////////////////////////////////
@@ -529,4 +862,5 @@ namespace mystl
 		return !(*this == other);
 	}
 }
+
 #endif
