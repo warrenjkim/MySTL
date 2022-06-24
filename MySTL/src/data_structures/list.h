@@ -1,34 +1,652 @@
 #ifndef LIST_H
 #define LIST_H
 #include "iterator.h"
+#include <list>
 
 // TODO:
 // reorder function declarations and defintions
-// write an iterator class for list to overload the ++/--, +/-
 // write sort algorithms
 //
+namespace mystl
+{
+	template<typename T>
+	struct node
+	{
+		using value_type = T;
+
+		T		data = T();
+		node*	next = nullptr;
+		node*	prev = nullptr;
+
+		node() : data(T()), next(nullptr), prev(nullptr) { }
+
+		node(const T& data) : data(data), next(nullptr), prev(nullptr) { }
+		~node() = default;
+	};
+}
+
+// list_const_iterator
+namespace mystl
+{
+	template<class C>
+	class list_const_iterator
+	{
+	// typedefs
+	public:
+		using		value_type				= typename C::value_type;
+		using		const_pointer_type		= const value_type*;
+		using		const_reference_type	= const value_type&;
+
+		using		const_node_ptr			= const node<value_type>*;
+
+	// constructors
+	public:
+		constexpr							list_const_iterator(const_node_ptr ptr);
+											~list_const_iterator() = default;
+
+	// element access
+	public:
+		constexpr	const_reference_type	operator[](const size_t& offset) const;
+		constexpr	const_reference_type	operator*() const;
+		constexpr	const_pointer_type		operator->() const;
+
+	// modifier functions: increment
+	public:
+		constexpr	list_const_iterator&	operator++();
+		constexpr	list_const_iterator		operator++(int);
+
+		constexpr	list_const_iterator&	operator+=(const size_t& offset);
+		constexpr	list_const_iterator&	operator+(const size_t& offset) const;
+
+	// modifier functions: decrement
+	public:
+		constexpr	list_const_iterator&	operator--();
+		constexpr	list_const_iterator		operator--(int);
+
+		constexpr	list_const_iterator&	operator-=(const size_t& offset);
+		constexpr	list_const_iterator&	operator-(const size_t& offset) const;
+
+	// equality operators
+	public:
+		constexpr	bool					operator==(const list_const_iterator& other) const;
+		constexpr	bool					operator!=(const list_const_iterator& other) const;
+
+	// variables
+	protected:
+					const_node_ptr			m_Ptr = nullptr;
+	};
+
+	template<class C>
+	constexpr list_const_iterator<C>::list_const_iterator(const_node_ptr ptr) : m_Ptr(ptr)
+	{ }
+
+	template<class C>
+	constexpr typename list_const_iterator<C>::const_reference_type
+		list_const_iterator<C>::operator[](const size_t& offset) const
+	{
+		for (size_t i = 0; i < offset; i++)
+		{
+			m_Ptr = m_Ptr->next;
+		}
+		return m_Ptr->data;
+	}
+
+	template<class C>
+	constexpr typename list_const_iterator<C>::const_reference_type
+		list_const_iterator<C>::operator*() const
+	{
+		return m_Ptr->data;
+	}
+
+	template<class C>
+	constexpr typename list_const_iterator<C>::const_pointer_type
+		list_const_iterator<C>::operator->() const
+	{
+		return m_Ptr;
+	}
+
+	template<class C>
+	constexpr list_const_iterator<C>&
+		list_const_iterator<C>::operator++()
+	{
+		m_Ptr = m_Ptr->next;
+		return *this;
+	}
+
+	template<class C>
+	constexpr list_const_iterator<C>
+		list_const_iterator<C>::operator++(int)
+	{
+		list_const_iterator it = *this;
+		++(*this);
+		return it;
+	}
+
+	template<class C>
+	constexpr list_const_iterator<C>&
+		list_const_iterator<C>::operator+=(const size_t& offset)
+	{
+		for (size_t i = 0; i < offset; i++)
+		{
+			m_Ptr = m_Ptr->next;
+		}
+		return *this;
+	}
+
+	template<class C>
+	constexpr list_const_iterator<C>&
+		list_const_iterator<C>::operator+(const size_t& offset) const
+	{
+		list_const_iterator it = *this;
+		it += offset;
+		return *this;
+	}
+
+	template<class C>
+	constexpr list_const_iterator<C>&
+		list_const_iterator<C>::operator--()
+	{
+		m_Ptr = m_Ptr->prev;
+		return *this;
+	}
+
+	template<class C>
+	constexpr list_const_iterator<C>
+		list_const_iterator<C>::operator--(int)
+	{
+		list_const_iterator it = *this;
+		--(*this);
+		return it;
+	}
+
+	template<class C>
+	constexpr list_const_iterator<C>&
+		list_const_iterator<C>::operator-=(const size_t& offset)
+	{
+		for (size_t i = 0; i < offset; i++)
+		{
+			m_Ptr = m_Ptr->prev;
+		}
+		return *this;
+	}
+
+	template<class C>
+	constexpr list_const_iterator<C>&
+		list_const_iterator<C>::operator-(const size_t& offset) const
+	{
+		list_const_iterator it = *this;
+		it -= offset;
+		return it;
+	}
+
+	template<class C>
+	constexpr bool
+		list_const_iterator<C>::operator==(const list_const_iterator& other) const
+	{
+		return m_Ptr == other.m_Ptr;
+	}
+
+	template<class C>
+	constexpr bool
+		list_const_iterator<C>::operator!=(const list_const_iterator& other) const
+	{
+		return !(*this == other);
+	}
+}
+
+// list_iterator
+namespace mystl
+{
+	template<class C>
+	class list_iterator : public list_const_iterator<C>
+	{
+	// base class typedef
+	public:
+		using		base_class = list_const_iterator<C>;
+
+	// typedefs
+	public:
+		using		value_type		= typename C::value_type;
+		using		pointer_type	= value_type*;
+		using		reference_type	= value_type&;
+
+		using		node_ptr		= node<value_type>*;
+
+	// constructors
+	public:
+		constexpr					list_iterator(node_ptr ptr);
+									~list_iterator() = default;
+
+	// element access
+	public:
+		constexpr	reference_type	operator[](const size_t& offset) const;
+		constexpr	reference_type	operator*() const;
+		constexpr	pointer_type	operator->() const;
+
+	// modifier functions: increment
+	public:
+		constexpr	list_iterator&	operator++();
+		constexpr	list_iterator	operator++(int);
+		constexpr	list_iterator&	operator+=(const size_t& offset);
+		constexpr	list_iterator	operator+(const size_t& offset) const;
+
+	// modifier functions: decrement
+	public:
+		constexpr	list_iterator&	operator--();
+		constexpr	list_iterator	operator--(int);
+
+		constexpr	list_iterator&	operator-=(const size_t& offset);
+		constexpr	list_iterator&	operator-(const size_t& offset) const;
+	};
+
+	template<class C>
+	constexpr list_iterator<C>::list_iterator(node_ptr ptr) : list_const_iterator<C>(ptr)
+	{ }
+
+	template<class C>
+	constexpr typename list_iterator<C>::reference_type
+		list_iterator<C>::operator[](const size_t& offset) const
+	{
+		return const_cast<reference_type>(base_class::operator[](offset));
+	}
+
+	template<class C>
+	constexpr typename list_iterator<C>::reference_type
+		list_iterator<C>::operator*() const
+	{
+		return const_cast<reference_type>(base_class::operator*());
+	}
+
+	template<class C>
+	constexpr typename list_iterator<C>::pointer_type
+		list_iterator<C>::operator->() const
+	{
+		return this->m_Ptr;
+	}
+
+	template<class C>
+	constexpr list_iterator<C>&
+		list_iterator<C>::operator++()
+	{
+		base_class::operator++();
+		return *this;
+	}
+
+	template<class C>
+	constexpr list_iterator<C>&
+		list_iterator<C>::operator+=(const size_t& offset)
+	{
+		base_class::operator+=(offset);
+		return *this;
+	}
+
+	template<class C>
+	constexpr list_iterator<C>
+		list_iterator<C>::operator+(const size_t& offset) const
+	{
+		list_iterator it = *this;
+		it += offset;
+		return it;
+	}
+
+	template<class C>
+	constexpr list_iterator<C>
+		list_iterator<C>::operator++(int)
+	{
+		list_iterator it = *this;
+		base_class::operator++();
+		return it;
+	}
+
+	template<class C>
+	constexpr list_iterator<C>&
+		list_iterator<C>::operator--()
+	{
+		base_class::operator--();
+		return *this;
+	}
+
+	template<class C>
+	constexpr list_iterator<C>
+		list_iterator<C>::operator--(int)
+	{
+		list_iterator it = *this;
+		base_class::operator--();
+		return it;
+	}
+
+	template<class C>
+	constexpr list_iterator<C>&
+		list_iterator<C>::operator-=(const size_t& offset)
+	{
+		base_class::operator-=(offset);
+		return *this;
+	}
+
+	template<class C>
+	constexpr list_iterator<C>&
+		list_iterator<C>::operator-(const size_t& offset) const
+	{
+		list_iterator it = *this;
+		it -= offset;
+		return *this;
+	}
+}
+
+// list_const_reverse_iterator
+namespace mystl
+{
+	template<class C>
+	class list_const_reverse_iterator
+	{
+	// typedefs
+	public:
+		using		value_type						= typename C::value_type;
+		using		const_pointer_type				= const value_type*;
+		using		const_reference_type			= const value_type&;
+
+		using		const_node_ptr					= const node<value_type>*;
+
+	// constructors
+	public:
+		constexpr									list_const_reverse_iterator(const_node_ptr ptr);
+													~list_const_reverse_iterator() = default;
+
+	// element access
+	public:
+		constexpr	const_reference_type			operator[](const size_t& offset) const;
+		constexpr	const_reference_type			operator*() const;
+		constexpr	const_pointer_type				operator->() const;
+
+	// modifier functions: increment
+	public:
+		constexpr	list_const_reverse_iterator&	operator++();
+		constexpr	list_const_reverse_iterator		operator++(int);
+
+		constexpr	list_const_reverse_iterator&	operator+=(const size_t& offset);
+		constexpr	list_const_reverse_iterator&	operator+(const size_t& offset) const;
+
+	// modifier functions: decrement
+	public:
+		constexpr	list_const_reverse_iterator&	operator--();
+		constexpr	list_const_reverse_iterator		operator--(int);
+
+		constexpr	list_const_reverse_iterator&	operator-=(const size_t& offset);
+		constexpr	list_const_reverse_iterator&	operator-(const size_t& offset) const;
+
+	// equality operators
+	public:
+		constexpr	bool						operator==(const list_const_reverse_iterator& other) const;
+		constexpr	bool						operator!=(const list_const_reverse_iterator& other) const;
+
+	// variables
+	protected:
+					const_node_ptr				m_Ptr = nullptr;
+	};
+
+	template<class C>
+	constexpr list_const_reverse_iterator<C>::list_const_reverse_iterator(const_node_ptr ptr) : m_Ptr(ptr)
+	{ }
+
+	template<class C>
+	constexpr typename list_const_reverse_iterator<C>::const_reference_type
+		list_const_reverse_iterator<C>::operator[](const size_t& offset) const
+	{
+		for (size_t i = 0; i < offset; i++)
+		{
+			m_Ptr = m_Ptr->prev;
+		}
+		return m_Ptr->data;
+	}
+
+	template<class C>
+	constexpr typename list_const_reverse_iterator<C>::const_reference_type
+		list_const_reverse_iterator<C>::operator*() const
+	{
+		return m_Ptr->data;
+	}
+
+	template<class C>
+	constexpr typename list_const_reverse_iterator<C>::const_pointer_type
+		list_const_reverse_iterator<C>::operator->() const
+	{
+		return m_Ptr;
+	}
+
+	template<class C>
+	constexpr list_const_reverse_iterator<C>&
+		list_const_reverse_iterator<C>::operator++()
+	{
+		m_Ptr = m_Ptr->prev;
+		return *this;
+	}
+
+	template<class C>
+	constexpr list_const_reverse_iterator<C>
+		list_const_reverse_iterator<C>::operator++(int)
+	{
+		list_const_reverse_iterator it = *this;
+		++(*this);
+		return it;
+	}
+
+	template<class C>
+	constexpr list_const_reverse_iterator<C>&
+		list_const_reverse_iterator<C>::operator+=(const size_t& offset)
+	{
+		for (size_t i = 0; i < offset; i++)
+		{
+			m_Ptr = m_Ptr->prev;
+		}
+		return *this;
+	}
+
+	template<class C>
+	constexpr list_const_reverse_iterator<C>&
+		list_const_reverse_iterator<C>::operator+(const size_t& offset) const
+	{
+		list_const_reverse_iterator it = *this;
+		it += offset;
+		return *this;
+	}
+
+	template<class C>
+	constexpr list_const_reverse_iterator<C>&
+		list_const_reverse_iterator<C>::operator--()
+	{
+		m_Ptr = m_Ptr->next;
+		return *this;
+	}
+
+	template<class C>
+	constexpr list_const_reverse_iterator<C>
+		list_const_reverse_iterator<C>::operator--(int)
+	{
+		list_const_reverse_iterator it = *this;
+		--(*this);
+		return it;
+	}
+
+	template<class C>
+	constexpr list_const_reverse_iterator<C>&
+		list_const_reverse_iterator<C>::operator-=(const size_t& offset)
+	{
+		for (size_t i = 0; i < offset; i++)
+		{
+			m_Ptr = m_Ptr->next;
+		}
+		return *this;
+	}
+
+	template<class C>
+	constexpr list_const_reverse_iterator<C>&
+		list_const_reverse_iterator<C>::operator-(const size_t& offset) const
+	{
+		list_const_reverse_iterator it = *this;
+		it -= offset;
+		return it;
+	}
+
+	template<class C>
+	constexpr bool
+		list_const_reverse_iterator<C>::operator==(const list_const_reverse_iterator& other) const
+	{
+		return m_Ptr == other.m_Ptr;
+	}
+
+	template<class C>
+	constexpr bool
+		list_const_reverse_iterator<C>::operator!=(const list_const_reverse_iterator& other) const
+	{
+		return !(*this == other);
+	}
+}
+
+// reverse_iterator
+namespace mystl
+{
+	template<class C>
+	class list_reverse_iterator : public list_const_reverse_iterator<C>
+	{
+	// base class typedef
+	public:
+		using		base_class				= list_const_reverse_iterator<C>;
+
+	// typedefs
+	public:
+		using		value_type				= typename C::value_type;
+		using		pointer_type			= value_type*;
+		using		reference_type			= value_type&;
+
+		using		node_ptr				= node<value_type>*;
+
+	// constructors
+	public:
+		constexpr							list_reverse_iterator(pointer_type ptr);
+											~list_reverse_iterator() = default;
+
+	// element access
+	public:
+		constexpr	reference_type			operator[](const size_t& offset) const;
+		constexpr	reference_type			operator*() const;
+		constexpr	pointer_type			operator->() const;
+
+	// modifier functions: increment
+	public:
+		constexpr	list_reverse_iterator&	operator++();
+		constexpr	list_reverse_iterator	operator++(int);
+
+		constexpr	list_reverse_iterator&	operator+=(const size_t& offset);
+		constexpr	list_reverse_iterator	operator+(const size_t& offset) const;
+
+	// modifier functions: decrement
+	public:
+		constexpr	list_reverse_iterator&	operator--();
+		constexpr	list_reverse_iterator	operator--(int);
+
+		constexpr	list_reverse_iterator&	operator-=(const size_t& offset);
+		constexpr	list_reverse_iterator&	operator-(const size_t& offset) const;
+	};
+
+	template<class C>
+	constexpr list_reverse_iterator<C>::list_reverse_iterator(pointer_type ptr) : list_const_reverse_iterator<C>(ptr)
+	{ }
+
+	template<class C>
+	constexpr typename list_reverse_iterator<C>::reference_type
+		list_reverse_iterator<C>::operator[](const size_t& offset) const
+	{
+		return const_cast<reference_type>(base_class::operator[](offset));
+	}
+
+	template<class C>
+	constexpr typename list_reverse_iterator<C>::reference_type
+		list_reverse_iterator<C>::operator*() const
+	{
+		return const_cast<reference_type>(base_class::operator*());
+	}
+
+	template<class C>
+	constexpr typename list_reverse_iterator<C>::pointer_type
+		list_reverse_iterator<C>::operator->() const
+	{
+		return this->m_Ptr;
+	}
+
+	template<class C>
+	constexpr list_reverse_iterator<C>&
+		list_reverse_iterator<C>::operator++()
+	{
+		base_class::operator++();
+		return *this;
+	}
+
+	template<class C>
+	constexpr list_reverse_iterator<C>
+		list_reverse_iterator<C>::operator++(int)
+	{
+		list_reverse_iterator it = *this;
+		base_class::operator++();
+		return it;
+	}
+
+	template<class C>
+	constexpr list_reverse_iterator<C>&
+		list_reverse_iterator<C>::operator+=(const size_t& offset)
+	{
+		base_class::operator+=(offset);
+		return *this;
+	}
+
+	template<class C>
+	constexpr list_reverse_iterator<C>
+		list_reverse_iterator<C>::operator+(const size_t& offset) const
+	{
+		list_reverse_iterator it = *this;
+		it += offset;
+		return it;
+	}
+
+	template<class C>
+	constexpr list_reverse_iterator<C>&
+		list_reverse_iterator<C>::operator--()
+	{
+		base_class::operator--();
+		return *this;
+	}
+
+	template<class C>
+	constexpr list_reverse_iterator<C>
+		list_reverse_iterator<C>::operator--(int)
+	{
+		list_reverse_iterator it = *this;
+		base_class::operator--();
+		return it;
+	}
+
+	template<class C>
+	constexpr list_reverse_iterator<C>&
+		list_reverse_iterator<C>::operator-=(const size_t& offset)
+	{
+		base_class::operator-=(offset);
+		return *this;
+	}
+
+	template<class C>
+	constexpr list_reverse_iterator<C>&
+		list_reverse_iterator<C>::operator-(const size_t& offset) const
+	{
+		list_reverse_iterator it = *this;
+		it -= offset;
+		return *this;
+	}
+}
 
 namespace mystl
 {
 	template<typename T>
 	class list
 	{
-	// node struct
-	private:
-		struct node
-		{
-			friend class list;
-
-			T		data = T();
-			node*	next = nullptr;
-			node*	prev = nullptr;
-
-			node() : data(T()), next(nullptr), prev(nullptr) { }
-
-			node(const T& data) : data(data), next(nullptr), prev(nullptr) { }
-
-			~node() = default;
-		};
 	// typedefs
 	public:
 		using		value_type = T;
@@ -36,117 +654,106 @@ namespace mystl
 		using		reference_type = value_type&;
 		using		pointer_type = value_type*;
 
+		using		node = node<T>;
+		using		node_ptr = node*;
+
 		using		const_reference_type = const value_type&;
 		using		const_pointer_type = const value_type*;
 
-		using		iterator = iterator<list<T>>;
-		using		const_iterator = const_iterator<list<T>>;
+		using		const_iterator = list_const_iterator<list<T>>;
+		using		iterator = list_iterator<list<T>>;
 
-		using		reverse_iterator = reverse_iterator<iterator>;
-		using		const_reverse_iterator = const_reverse_iterator<const_iterator>;
-
-		using		node_ptr = node*;
+		using		const_reverse_iterator = list_const_reverse_iterator<const_iterator>;
+		using		reverse_iterator = list_reverse_iterator<iterator>;
 
 	// constructor/destructor
 	public:
-		CONSTEXPR	list();
-		CONSTEXPR	list(const size_t& size);
-		CONSTEXPR	list(const size_t& size, const_reference_type fillElement);
+		constexpr							list();
+		constexpr							list(const size_t& size);
+		constexpr							list(const size_t& size, const_reference_type fillElement);
+											~list();
 
 	// size functions
 	public:
-		CONSTEXPR	bool					empty() const;
-		CONSTEXPR	size_t					size() const;
+		constexpr	bool					empty() const;
+		constexpr	size_t					size() const;
 
 	// access functions
 	public:
-		CONSTEXPR	reference_type			front();
-		CONSTEXPR	reference_type			back();
+		constexpr	reference_type			front();
+		constexpr	reference_type			back();
 
-		CONSTEXPR	const_reference_type	front() const;
-		CONSTEXPR	const_reference_type	back() const;
-
-	// mutators
-	public:
-		CONSTEXPR	void					assign(const size_t& size, const_reference_type fillElement);
-		CONSTEXPR	void					assign(iterator first, iterator last);
-		CONSTEXPR	void					assign(pointer_type first, pointer_type second);
-
-		CONSTEXPR	reference_type			push_front(T&& element);
-		CONSTEXPR	reference_type			push_front(const_reference_type element);
-
-		CONSTEXPR	reference_type			push_back(T&& element);
-		CONSTEXPR	reference_type			push_back(const_reference_type element);
-
-		template<typename... Args>
-		CONSTEXPR	reference_type			emplace_front(Args&&... args);
-
-		template<typename... Args>
-		CONSTEXPR	reference_type			emplace_back(Args&&... args);
-
-		template<typename... Args>
-		CONSTEXPR	iterator				emplace(iterator position, Args&&... args);
-
-		CONSTEXPR	reference_type			pop_front();
-		CONSTEXPR	reference_type			pop_back();
-
-		CONSTEXPR	reference_type			insert(iterator position, T&& element);
+		constexpr	const_reference_type	front() const;
+		constexpr	const_reference_type	back() const;
 
 	// mutators
 	public:
-		CONSTEXPR	void					clear();
-		CONSTEXPR	void					swap(list& other);
-		CONSTEXPR	void					resize(const size_t& size);
+		constexpr	void					assign(const size_t& size, const_reference_type fillElement);
+		constexpr	void					assign(iterator first, iterator last);
+		constexpr	void					assign(pointer_type first, pointer_type second);
+
+		constexpr	reference_type			push_front(T&& element);
+		constexpr	reference_type			push_front(const_reference_type element);
+
+		constexpr	reference_type			push_back(T&& element);
+		constexpr	reference_type			push_back(const_reference_type element);
+
+		template<typename... Args>
+		constexpr	reference_type			emplace_front(Args&&... args);
+
+		template<typename... Args>
+		constexpr	reference_type			emplace_back(Args&&... args);
+
+		template<typename... Args>
+		constexpr	iterator				emplace(iterator position, Args&&... args);
+
+		constexpr	void					pop_front();
+		constexpr	void					pop_back();
+
+		constexpr	reference_type			insert(iterator position, T&& element);
+
+	// mutators
+	public:
+					[[noreturn]] void		clear();
+					[[noreturn]] void		swap(list& other);
+					[[noreturn]] void		resize(const size_t& size);
 
 	// mutators
 	public:
 		
-		CONSTEXPR	iterator				erase(iterator position);
-		CONSTEXPR	iterator				erase(iterator first, iterator last);
+		constexpr	iterator				erase(iterator position);
+		constexpr	iterator				erase(iterator first, iterator last);
 
-		CONSTEXPR	reference_type			remove(T&& element);
-		CONSTEXPR	reference_type			remove(const_reference_type element);
+		constexpr	reference_type			remove(T&& element);
+		constexpr	reference_type			remove(const_reference_type element);
 
 		template<class Predicate>
-		CONSTEXPR	void					remove_if(const Predicate& predicate);
+		constexpr	void					remove_if(const Predicate& predicate);
 
-		CONSTEXPR	void					sort();
+		constexpr	void					sort();
 		template<class Compare>
-		CONSTEXPR	void					sort(const Compare& comparator);
+		constexpr	void					sort(const Compare& comparator);
 
-		CONSTEXPR	void					merge(list& other);
+		constexpr	void					merge(list& other);
 		template<class Compare>
-		CONSTEXPR	void					merge(list& other, const Compare& comparator);
+		constexpr	void					merge(list& other, const Compare& comparator);
 
-		CONSTEXPR	void					reverse();
-
-		vector<T>* print() const
-		{
-			vector<T>* data = new vector<T>();
-			node_ptr temp = m_Head;
-			while (temp)
-			{
-				data->push_back(temp->data);
-				temp = temp->next;
-			}
-
-			return data;
-		}
+		constexpr	void					reverse();
 
 	// iterator functions
 	public:
 
-		CONSTEXPR	const_iterator			cbegin() const;
-		CONSTEXPR	const_iterator			cend() const;
+		constexpr	const_iterator			cbegin() const;
+		constexpr	const_iterator			cend() const;
 
-		CONSTEXPR	iterator				begin();
-		CONSTEXPR	iterator				end();
+		constexpr	iterator				begin();
+		constexpr	iterator				end();
 
-		CONSTEXPR	const_reverse_iterator	crbegin() const;
-		CONSTEXPR	const_reverse_iterator	crend() const;
+		constexpr	const_reverse_iterator	crbegin() const;
+		constexpr	const_reverse_iterator	crend() const;
 
-		CONSTEXPR	reverse_iterator		rbegin();
-		CONSTEXPR	reverse_iterator		rend();
+		constexpr	reverse_iterator		rbegin();
+		constexpr	reverse_iterator		rend();
 
 	private:
 					node_ptr				m_Head	= nullptr;
@@ -155,19 +762,19 @@ namespace mystl
 	};
 
 	template<typename T>
-	CONSTEXPR list<T>::list() : m_Head(nullptr), m_Tail(nullptr), m_Size(0)
+	constexpr list<T>::list() : m_Head(nullptr), m_Tail(nullptr), m_Size(0)
 	{
 
 	}
 
 	template<typename T>
-	CONSTEXPR list<T>::list(const size_t& size) : m_Head(nullptr), m_Tail(nullptr), m_Size(size)
+	constexpr list<T>::list(const size_t& size) : m_Head(nullptr), m_Tail(nullptr), m_Size(size)
 	{
 
 	}
 
 	template<typename T>
-	CONSTEXPR list<T>::list(const size_t& size, const_reference_type fillElement) : m_Head(nullptr), m_Tail(nullptr), m_Size(size)
+	constexpr list<T>::list(const size_t& size, const_reference_type fillElement) : m_Head(nullptr), m_Tail(nullptr), m_Size(size)
 	{
 		for (size_t i = 0; i < size; i++)
 		{
@@ -176,43 +783,52 @@ namespace mystl
 	}
 
 	template<typename T>
-	CONSTEXPR bool list<T>::empty() const
+	inline list<T>::~list()
+	{
+		while (!empty())
+		{
+			pop_front();
+		}
+	}
+
+	template<typename T>
+	constexpr bool list<T>::empty() const
 	{
 		return !m_Head;
 	}
 
 	template<typename T>
-	CONSTEXPR size_t list<T>::size() const
+	constexpr size_t list<T>::size() const
 	{
 		return m_Size;
 	}
 
 	template<typename T>
-	CONSTEXPR typename list<T>::reference_type list<T>::front()
+	constexpr typename list<T>::reference_type list<T>::front()
 	{
 		return m_Head->data;
 	}
 
 	template<typename T>
-	CONSTEXPR typename list<T>::reference_type list<T>::back()
+	constexpr typename list<T>::reference_type list<T>::back()
 	{
 		return m_Tail->data;
 	}
 
 	template<typename T>
-	CONSTEXPR typename list<T>::const_reference_type list<T>::front() const
+	constexpr typename list<T>::const_reference_type list<T>::front() const
 	{
 		return m_Head->data;
 	}
 
 	template<typename T>
-	CONSTEXPR typename list<T>::const_reference_type list<T>::back() const
+	constexpr typename list<T>::const_reference_type list<T>::back() const
 	{
 		return m_Tail->data;
 	}
 
 	template<typename T>
-	CONSTEXPR void list<T>::assign(const size_t& size, const_reference_type fillElement)
+	constexpr void list<T>::assign(const size_t& size, const_reference_type fillElement)
 	{
 		for (size_t i = 0; i < size; i++)
 		{
@@ -221,13 +837,13 @@ namespace mystl
 	}
 
 	template<typename T>
-	CONSTEXPR void list<T>::assign(iterator first, iterator last)
+	constexpr void list<T>::assign(iterator first, iterator last)
 	{
 
 	}
 
 	template<typename T>
-	CONSTEXPR void list<T>::assign(pointer_type first, pointer_type second)
+	constexpr void list<T>::assign(pointer_type first, pointer_type second)
 	{
 		while (first != second)
 		{
@@ -237,7 +853,7 @@ namespace mystl
 
 	template<typename T>
 	template<typename ...Args>
-	CONSTEXPR typename list<T>::reference_type list<T>::emplace_front(Args && ...args)
+	constexpr typename list<T>::reference_type list<T>::emplace_front(Args && ...args)
 	{
 		node_ptr temp = new node(std::forward<Args>(args)...);
 
@@ -258,7 +874,7 @@ namespace mystl
 
 	template<typename T>
 	template<typename ...Args>
-	CONSTEXPR typename list<T>::reference_type list<T>::emplace_back(Args && ...args)
+	constexpr typename list<T>::reference_type list<T>::emplace_back(Args && ...args)
 	{
 		node_ptr temp = new node(std::forward<Args>(args)...);
 
@@ -280,7 +896,7 @@ namespace mystl
 
 	template<typename T>
 	template<typename ...Args>
-	CONSTEXPR typename list<T>::iterator list<T>::emplace(iterator position, Args && ...args)
+	constexpr typename list<T>::iterator list<T>::emplace(iterator position, Args && ...args)
 	{
 		node_ptr temp = new node(std::forward<Args>(args)...);
 
@@ -309,76 +925,68 @@ namespace mystl
 	}
 
 	template<typename T>
-	CONSTEXPR typename list<T>::reference_type list<T>::push_front(T&& element)
+	constexpr typename list<T>::reference_type list<T>::push_front(T&& element)
 	{
 		return emplace_front(element);
 	}
 
 	template<typename T>
-	CONSTEXPR typename list<T>::reference_type list<T>::push_front(const_reference_type element)
+	constexpr typename list<T>::reference_type list<T>::push_front(const_reference_type element)
 	{
 		return emplace_front(element);
 	}
 
 	template<typename T>
-	CONSTEXPR typename list<T>::reference_type list<T>::push_back(T&& element)
+	constexpr typename list<T>::reference_type list<T>::push_back(T&& element)
 	{
 		return emplace_back(element);
 	}
 
 	template<typename T>
-	CONSTEXPR typename list<T>::reference_type list<T>::push_back(const_reference_type element)
+	constexpr typename list<T>::reference_type list<T>::push_back(const_reference_type element)
 	{
 		return emplace_back(element);
 	}
 
 	template<typename T>
-	CONSTEXPR typename list<T>::reference_type list<T>::pop_front()
+	constexpr void list<T>::pop_front()
 	{
 		if (!m_Head)
 		{
-			return reference_type();
+			return;
 		}
 
 		node_ptr temp = m_Head;
-		reference_type data = temp->data;
-
 		m_Head = m_Head->next;
 
 		delete temp;
 		m_Size--;
-
-		return data;
 	}
 
 	template<typename T>
-	CONSTEXPR typename list<T>::reference_type list<T>::pop_back()
+	constexpr void list<T>::pop_back()
 	{
 		if (!m_Head)
 		{
-			return reference_type();
+			return;
 		}
 
 		node_ptr temp = m_Tail;
-		reference_type data = temp->data;
-
 		m_Tail = m_Tail->prev;
 		m_Tail->next = nullptr;
 
 		delete temp;
 		m_Size--;
-
-		return data;
 	}
 
 	template<typename T>
-	CONSTEXPR typename list<T>::reference_type list<T>::insert(iterator position, T&& element)
+	constexpr typename list<T>::reference_type list<T>::insert(iterator position, T&& element)
 	{
 		emplace(position, element);
 	}
 
 	template<typename T>
-	CONSTEXPR void list<T>::clear()
+	inline void list<T>::clear()
 	{
 		while (m_Head)
 		{
@@ -388,7 +996,7 @@ namespace mystl
 
 	
 	template<typename T>
-	CONSTEXPR void list<T>::swap(list& other)
+	inline void list<T>::swap(list& other)
 	{
 		node_ptr tempHead = m_Head;
 		node_ptr tempTail = m_Tail;
@@ -404,7 +1012,7 @@ namespace mystl
 	}
 
 	template<typename T>
-	CONSTEXPR void list<T>::resize(const size_t& size)
+	inline void list<T>::resize(const size_t& size)
 	{
 		while (m_Size > size)
 		{
@@ -413,7 +1021,7 @@ namespace mystl
 	}
 
 	template<typename T>
-	CONSTEXPR typename list<T>::reference_type list<T>::remove(T&& element)
+	constexpr typename list<T>::reference_type list<T>::remove(T&& element)
 	{
 		node_ptr temp = m_Head;
 
@@ -439,7 +1047,7 @@ namespace mystl
 	}
 
 	template<typename T>
-	CONSTEXPR typename list<T>::reference_type list<T>::remove(const_reference_type element)
+	constexpr typename list<T>::reference_type list<T>::remove(const_reference_type element)
 	{
 		node_ptr temp = m_Head;
 
@@ -465,7 +1073,7 @@ namespace mystl
 	}
 
 	template<typename T>
-	CONSTEXPR typename list<T>::iterator list<T>::erase(iterator position)
+	constexpr typename list<T>::iterator list<T>::erase(iterator position)
 	{
 		node_ptr temp = m_Head;
 
@@ -480,7 +1088,7 @@ namespace mystl
 	}
 
 	template<typename T>
-	CONSTEXPR typename list<T>::iterator list<T>::erase(iterator first, iterator last)
+	constexpr typename list<T>::iterator list<T>::erase(iterator first, iterator last)
 	{
 		iterator temp = first;
 		while (first != last)
@@ -492,26 +1100,26 @@ namespace mystl
 	}
 
 	template<typename T>
-	CONSTEXPR void list<T>::sort()
+	constexpr void list<T>::sort()
 	{
 		// implemented later using merge sort
 	}
 
 	template<typename T>
-	CONSTEXPR void list<T>::merge(list& other)
+	constexpr void list<T>::merge(list& other)
 	{
 		m_Tail->next = other.m_Head;
 	}
 
 	template<typename T>
 	template<class Compare>
-	CONSTEXPR void list<T>::merge(list& other, const Compare& comparator)
+	constexpr void list<T>::merge(list& other, const Compare& comparator)
 	{
 		// implemented later using merge sort
 	}
 
 	template<typename T>
-	CONSTEXPR void list<T>::reverse()
+	constexpr void list<T>::reverse()
 	{
 		if (!m_Head)
 		{
@@ -537,14 +1145,14 @@ namespace mystl
 
 	template<typename T>
 	template<class Predicate>
-	CONSTEXPR void list<T>::remove_if(const Predicate& predicate)
+	constexpr void list<T>::remove_if(const Predicate& predicate)
 	{
 		// implement later
 	}
 
 	template<typename T>
 	template<class Compare>
-	CONSTEXPR void list<T>::sort(const Compare& comparator)
+	constexpr void list<T>::sort(const Compare& comparator)
 	{
 		// implement using merge sort later
 	}
@@ -553,51 +1161,51 @@ namespace mystl
 	// class to be a base class that can be used for inheritance to override the ++/-- and +/-
 	// functions.
 	template<typename T>
-	CONSTEXPR typename list<T>::const_iterator list<T>::cbegin() const
+	constexpr typename list<T>::const_iterator list<T>::cbegin() const
 	{
-		return const_iterator();
+		return const_iterator(m_Head);
 	}
 
 	template<typename T>
-	CONSTEXPR typename list<T>::const_iterator list<T>::cend() const
+	constexpr typename list<T>::const_iterator list<T>::cend() const
 	{
-		return const_iterator();
+		return const_iterator(m_Tail->next);
 	}
 
 	template<typename T>
-	CONSTEXPR typename list<T>::iterator list<T>::begin()
+	constexpr typename list<T>::iterator list<T>::begin()
 	{
-		return iterator(*m_Head);
+		return iterator(m_Head);
 	}
 
 	template<typename T>
-	CONSTEXPR typename list<T>::iterator list<T>::end()
+	constexpr typename list<T>::iterator list<T>::end()
 	{
-		return iterator(*m_Tail);
+		return iterator(m_Tail->next);
 	}
 
 	template<typename T>
-	CONSTEXPR typename list<T>::const_reverse_iterator list<T>::crbegin() const
+	constexpr typename list<T>::const_reverse_iterator list<T>::crbegin() const
 	{
-		return const_reverse_iterator();
+		return const_reverse_iterator(cend());
 	}
 
 	template<typename T>
-	CONSTEXPR typename list<T>::const_reverse_iterator list<T>::crend() const
+	constexpr typename list<T>::const_reverse_iterator list<T>::crend() const
 	{
-		return const_reverse_iterator();
+		return const_reverse_iterator(cbegin());
 	}
 
 	template<typename T>
-	CONSTEXPR typename list<T>::reverse_iterator list<T>::rbegin()
+	constexpr typename list<T>::reverse_iterator list<T>::rbegin()
 	{
-		return reverse_iterator();
+		return reverse_iterator(end());
 	}
 
 	template<typename T>
-	CONSTEXPR typename list<T>::reverse_iterator list<T>::rend()
+	constexpr typename list<T>::reverse_iterator list<T>::rend()
 	{
-		return reverse_iterator();
+		return reverse_iterator(begin());
 	}
 }
 
