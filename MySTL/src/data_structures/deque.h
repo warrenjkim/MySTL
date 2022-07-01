@@ -1,6 +1,9 @@
 #ifndef DEQUE_H
 #define DEQUE_H
 
+#include "list.h"
+#include "list_iterator.h"
+
 ///////////////////////////////////////////////////////////////////////////////////////
 /// deque																			///
 ///																					///
@@ -16,6 +19,7 @@ namespace mystl
 	template<typename T>
 	class deque
 	{
+	// typedefs
 	public:
 		using		value_type				= T;
 
@@ -82,6 +86,7 @@ namespace mystl
 		constexpr	reverse_iterator		rbegin();
 		constexpr	reverse_iterator		rend();
 
+	// variables
 	private:
 					list<T>					m_Data;
 	};
