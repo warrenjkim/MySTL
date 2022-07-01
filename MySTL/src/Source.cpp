@@ -2,10 +2,16 @@
 #include "data_structures/array.h"
 #include "data_structures/vector.h"
 #include "data_structures/list.h"
+#include "data_structures/deque.h"
+#include "data_structures/stack.h"
+#include "data_structures/queue.h"
 
 #define LOG(x) std::cout << x << std::endl
+#define LOGIL(x) std::cout << x 
 
 int main() {
+
+	std::cout << std::boolalpha;
 
 	LOG("ARRAY");
 	mystl::array<int, 5> arr{};
@@ -27,7 +33,7 @@ int main() {
 		LOG(++x);
 	}
 
-	LOG("\nVECTOR");
+	LOG("\n\nVECTOR");
 	mystl::vector<int> vec{};
 	
 	LOG("initialized empty vector");
@@ -54,59 +60,154 @@ int main() {
 	LOG("vector size: " << vec.size());
 	LOG("vector capacity: " << vec.capacity());
 
-
 	LOG("\nvector printed using for-each loop");
 	for (const auto& x : vec)
 	{
 		LOG(x);
 	}
 
-	LOG("\nLIST");
-	mystl::list<int> l1;
+	LOG("\n\nLIST");
+	mystl::list<int> list{};
 
 	LOG("initialized empty list");
-	LOG("list size: " << l1.size());
+	LOG("list size: " << list.size());
 	
-	l1.push_back(1);
-	LOG("\npush back 1: " << l1.front());
-	LOG("list size: " << l1.size());
+	list.push_back(1);
+	LOG("\npush back 1: " << list.front());
+	LOG("list size: " << list.size());
 
-	l1.push_front(2);
-	LOG("\npush front 2: " << l1.front());
-	LOG("list size: " << l1.size());
+	list.push_front(2);
+	LOG("\npush front 2: " << list.front());
+	LOG("list size: " << list.size());
 	
-	l1.emplace_front(3);
-	LOG("\nemplace front 3: " << l1.front());
-	LOG("list size: " << l1.size());
+	list.emplace_front(3);
+	LOG("\nemplace front 3: " << list.front());
+	LOG("list size: " << list.size());
 
-	l1.emplace_back(0);
-	LOG("\nemplace back 0: " << l1.back());
-	LOG("list size: " << l1.size());
+	list.emplace_back(0);
+	LOG("\nemplace back 0: " << list.back());
+	LOG("list size: " << list.size());
 
-	auto lvec = l1.print();
-
-	for (const auto& x : *lvec)
+	LOG("\nprint list using for-each loop");
+	for (const auto& x : list)
 	{
-		std::cout << x << "->";
+		LOGIL(x << "->");
 	}
-	std::cout << "nullptr" << std::endl;
-	delete lvec;
+	std::cout << std::endl;
 
-	l1.reverse();
-	LOG("\nreverse list");
-	
-	lvec = l1.print();
+	LOG("pop front: " << list.pop_front());
+	LOG("pop back: " << list.pop_back());
 
-	for (const auto& x : *lvec)
+	for (const auto& x : list)
 	{
-		std::cout << x << "->";
+		LOGIL(x << "->");
 	}
-	std::cout << "nullptr" << std::endl;
+	std::cout << std::endl;
 
+	LOG("list at index 1: " << list[1]);
+
+	LOG("\n\nDEQUE");
+	mystl::deque<int> deque{};
+
+	LOG("initialized empty deque");
+	LOG("deque size: " << deque.size());
+
+	deque.push_back(3);
+	LOG("\npush back 3: " << deque.front());
+	LOG("deque size: " << deque.size());
+
+	deque.push_front(2);
+	LOG("\npush front 2: " << deque.front());
+	LOG("deque size: " << deque.size());
+
+	deque.push_front(1);
+	LOG("\npush front 1: " << deque.front());
+	LOG("deque size: " << deque.size());
+
+	deque.push_front(0);
+	LOG("\npush front 0: " << deque.front());
+	LOG("deque size: " << deque.size());
+
+	LOG("\nprint deque using for-each loop");
+	for (const auto& x : deque)
+	{
+		LOGIL(x << " ");
+	}
+	std::cout << std::endl;
+
+	LOG("pop front: " << deque.pop_front());
+	LOG("pop back: " << deque.pop_back());
+
+	for (const auto& x : deque)
+	{
+		LOGIL(x << " ");
+	}
+	std::cout << std::endl;
+
+	LOG("deque at index 1: " << deque[1]);
+
+	LOG("\n\nSTACK");
+	mystl::stack<int> stack{};
+
+	LOG("initialized empty stack");
+	LOG("stack size: " << stack.size());
+	LOG("stack empty: " << stack.empty());
+
+	stack.push(1);
+	LOG("\npush 1 to stack");
 	
-/*
-	mystl::vector<int> vec;
-	std::cout << vec.max_size();
-*/
+	stack.push(2);
+	LOG("push 2 to stack");
+
+	stack.push(3);
+	LOG("push 3 to stack");
+
+	stack.emplace(4);
+	LOG("emplace 4 to stack");
+
+	LOG("\nstack top: " << stack.top());
+
+	LOG("stack pop top: " << stack.pop());
+
+	LOG("\nprinting stack");
+	while (!stack.empty())
+	{
+		LOGIL(stack.top() << " ");
+		stack.pop();
+	}
+	std::cout << std::endl;
+
+	LOG("\n\nQUEUE");
+	mystl::queue<int> queue{};
+
+	LOG("initialized empty queue");
+	LOG("queue size: " << queue.size());
+	LOG("queue empty: " << queue.empty());
+
+	queue.push(1);
+	LOG("\npush 1 to queue");
+
+	queue.push(2);
+	LOG("push 2 to queue");
+
+	queue.push(3);
+	LOG("push 3 to queue");
+
+	queue.emplace(4);
+	LOG("emplace 4 to queue");
+
+	LOG("\nqueue front: " << queue.front());
+	LOG("\nqueue back: " << queue.back());
+
+	LOG("queue pop front: " << queue.pop());
+
+	LOG("\nprinting queue");
+	while (!queue.empty())
+	{
+		LOGIL(queue.front() << " ");
+		queue.pop();
+	}
+	std::cout << std::endl;
+
 	return 0;
 }
