@@ -59,6 +59,7 @@ Below are the list of data structures that have been implemented. The data struc
 
 ## __Basic__ ##
 
+
 ### __Array__ ###
 
 The array data structure stores elements of a specified data type in a contiguous block of memory. In this project, the array data structure is implemented using a raw array. The array has two template arguments: a data type and a size. If no size is specified, the size defaults to 1. The array has a fixed size and cannot be changed dynamically.
@@ -102,7 +103,7 @@ The array data structure stores elements of a specified data type in a contiguou
   <p>
 
   Element Access                           | Return Type              | Description
-  ---------------------------------------- | :----------------------: | :-----------------------------------------------------------------------------:
+  ---------------------------------------- | :----------------------: | :-----------------------------------------------------------:
   `operator[](const size_t& index)`        | `reference_type`         | returns a reference to the array at a specified index
   `operator[](const size_t& index) const`  | `const_reference_type`   | returns a const reference to the array at a specified index
   `at(const size_t& index) const`          | `const_reference_type`   | returns a const reference to the array at a specified index
@@ -120,7 +121,7 @@ The array data structure stores elements of a specified data type in a contiguou
   <p>
 
   Size Functions                           | Return Type              | Description
-  ---------------------------------------- | :----------------------: | :-----------------------------------------------------------------------------:
+  ---------------------------------------- | :----------------------: | :--------------------------------------------------------------------:
   `size() const`                           | `size_t`                 | returns the size of the array
   `max_size() const`                       | `size_t`                 | returns the max size of the array (returns the same value as size())
   `empty() const`                          | `bool`                   | returns true if the array is empty, false otherwise
@@ -269,7 +270,7 @@ The vector data structure stores elements of a specified data type in a contiguo
   <p>
    
   Constructor/Destructor                                             | Return Type | Description
-  ------------------------------------------------------------------ | :---------: | :--------------------------------------------------------------------------------:
+  ------------------------------------------------------------------ | :---------: | :----------------------------------------------------------:
   `vector()`                                                         | `N/A`       | vector capacity defaults to 2 if no size is specified
   `vector(const size_t& capacity)`                                   | `N/A`       | constructs vector with specified size
   `vector(const size_t& capacity, T&& fillElement)`                  | `N/A`       | constructs vector with specified size and fills it with the specified fill element
@@ -283,7 +284,7 @@ The vector data structure stores elements of a specified data type in a contiguo
   <p>
    
   Element Access                           | Return Type              | Description
-  ---------------------------------------- | :----------------------: | :-----------------------------------------------------------------------------:
+  ---------------------------------------- | :----------------------: | :------------------------------------------------------------:
   `operator[](const size_t& index)`        | `reference_type`         | returns a reference to the vector at a specified index
   `operator[](const size_t& index) const`  | `const_reference_type`   | returns a const reference to the vector at a specified index
   `at(const size_t& index) const`          | `const_reference_type`   | returns a const reference to the vector at a specified index
@@ -301,7 +302,7 @@ The vector data structure stores elements of a specified data type in a contiguo
   <p>
    
   Size Functions                           | Return Type              | Description
-  ---------------------------------------- | :----------------------: | :-----------------------------------------------------------------------------:
+  ---------------------------------------- | :----------------------: | :---------------------------------------------------:
   `empty() const`                          | `bool`                   | returns true if the vector is empty, false otherwise
   `size() const`                           | `size_t`                 | returns the size of the vector
   `max_size() const`                       | `size_t`                 | returns the max size of the vector
@@ -331,7 +332,7 @@ The vector data structure stores elements of a specified data type in a contiguo
   <p>
    
   Private Helper Functions                                          | Return Type | Description
-  ----------------------------------------------------------------- | :---------: | :----------------------------------------------------------------------------------:
+  ----------------------------------------------------------------- | :---------: | :-------------------------------------------------------------------:
   `realloc(const size_t& newCapacity)`                              | `void`      | reallocates a new capacity for the vector. The growth function of the vector is as follows: size < 10 ? size doubles, else size grows 1.5x
   `pow(const size_t& num, const size_t& power)`                     | `size_t`    | constructs an element at the specified position
   </p>
@@ -453,7 +454,7 @@ The vector data structure stores elements of a specified data type in a contiguo
 
 ### __List__ ###
 
-The list data structure is a representation of a linked list and stores elements of a specified data type in non-contiguous memory locations. In this project, the list data structure is implemented using a doubly linked list and uses a smaller, simple [node](#node "Goto node") struct as an intermediate container. The list takes in one template argument: a data type. A singly linked list has a pointer to the next node in the list, while a doubly linked list has pointers to the next __and__ previous nodes in the list. A doubly linked list was chosen over a singly linked list for this project due to its versatility and performance benefits.
+The list data structure is a representation of a linked list and stores elements of a specified data type in non-contiguous memory locations. In this project, the list data structure is implemented using a doubly linked list and uses a smaller, simple [node](#node "Goto node") struct as a subcontainer. The list takes in one template argument: a data type. A singly linked list has a pointer to the next node in the list, while a doubly linked list has pointers to the next __and__ previous nodes in the list. A doubly linked list was chosen over a singly linked list for this project due to its versatility and performance benefits.
 
 > Syntax: `mystl::list<T>`
 
@@ -488,7 +489,7 @@ The list data structure is a representation of a linked list and stores elements
   <p>
    
   Constructor/Destructor                                             | Return Type | Description
-  ------------------------------------------------------------------ | :---------: | :--------------------------------------------------------------------------------:
+  ------------------------------------------------------------------ | :---------: | :------------------------------------------------------------------:
   `list()`                                                           | `N/A`       | list size defaults to 0 if no size is specified
   `list(const size_t& size)`                                         | `N/A`       | constructs list with specified size
   `vector(const size_t& size, T&& fillElement)`                      | `N/A`       | constructs list with specified size and fills it with the specified fill element
@@ -529,7 +530,7 @@ The list data structure is a representation of a linked list and stores elements
   <p>
    
   Mutator Functions                                                 | Return Type      | Description
-  ----------------------------------------------------------------- | :--------------: | :------------------------------------------------------------------:
+  ----------------------------------------------------------------- | :--------------: | :----------------------------------------------------------:
   `template<typename T> emplace_front(Args&&... args)`              | `reference_type` | constructs an element into the front of the list
   `template<typename T> emplace_back(Args&&... args)`               | `reference_type` | constructs an element into the back of the list
   `template<typename T> emplace(iterator position, Args&&... args)` | `reference_type` | constructs an element at the specified position in the list
@@ -710,7 +711,7 @@ The deque data structures is a double ended queue that stores elements of a spec
   <p>
   
   Constructor/Destructor                                            | Return Type | Description
-  ----------------------------------------------------------------- | :---------: | :--------------------------------------------------------------------------------:
+  ----------------------------------------------------------------- | :---------: | :-------------------------------------------------------------------:
   `deque()`                                                         | `N/A`       | deque size defaults to 0 if no size is specified
   `deque(const size_t& capacity)`                                   | `N/A`       | constructs deque with specified size
   `deque(const size_t& capacity, const_reference_type fillElement)` | `N/A`       | constructs deque with specified size and fills it with the specified fill element
@@ -722,7 +723,7 @@ The deque data structures is a double ended queue that stores elements of a spec
   <p>
    
   Element Access                           | Return Type              | Description
-  ---------------------------------------- | :----------------------: | :-----------------------------------------------------------------------------:
+  ---------------------------------------- | :----------------------: | :----------------------------------------------------------:
   `operator[](const size_t& index)`        | `reference_type`         | returns a reference to the deque at a specified index
   `operator[](const size_t& index) const`  | `const_reference_type`   | returns a const reference to the deque at a specified index
   `front()`                                | `reference_type`         | returns a reference to the first element in the deque
@@ -737,7 +738,7 @@ The deque data structures is a double ended queue that stores elements of a spec
   <p>
    
   Size Functions                           | Return Type              | Description
-  ---------------------------------------- | :----------------------: | :-----------------------------------------------------------------------------:
+  ---------------------------------------- | :----------------------: | :--------------------------------------------------:
   `empty() const`                          | `bool`                   | returns true if the deque is empty, false otherwise
  `size() const`                           | `size_t`                 | returns the size of the deque
   </p>
@@ -748,7 +749,7 @@ The deque data structures is a double ended queue that stores elements of a spec
   <p>
    
   Mutator Functions                                                 | Return Type      | Description
-  ----------------------------------------------------------------- | :--------------: | :------------------------------------------------------------:
+  ----------------------------------------------------------------- | :--------------: | :------------------------------------------------:
   `template<typename T> emplace_back(Args&&... args)`               | `reference_type` | constructs an element into the back of the deque
   `template<typename T> emplace_front(Args&&... args)`              | `reference_type` | constructs an element into the front of the deque
   `push_front(T&& element)`                                         | `reference_type` | inserts an element at the front of the deque
@@ -898,7 +899,7 @@ The queue data structure is a First In First Out (FIFO) data structure that stor
   <p>
   
   Element Access                           | Return Type              | Description
-  ---------------------------------------- | :----------------------: | :-----------------------------------------------------------------------------:
+  ---------------------------------------- | :----------------------: | :----------------------------------------------------------:
   `front()`                                | `reference_type`         | returns a reference to the first element in the queue
   `back()`                                 | `reference_type`         | returns a reference to the last element in the queue
   `front() const`                          | `const_reference_type`   | returns a const reference to the first element in the queue
@@ -911,7 +912,7 @@ The queue data structure is a First In First Out (FIFO) data structure that stor
   <p>
   
   Size Functions                           | Return Type              | Description
-  ---------------------------------------- | :----------------------: | :-----------------------------------------------------------------------------:
+  ---------------------------------------- | :----------------------: | :--------------------------------------------------:
   `empty() const`                          | `bool`                   | returns true if the queue is empty, false otherwise
   `size() const`                           | `size_t`                 | returns the size of the queue
   </p>
@@ -922,7 +923,7 @@ The queue data structure is a First In First Out (FIFO) data structure that stor
   <p>
    
   Mutator Functions                                                 | Return Type      | Description
-  ----------------------------------------------------------------- | :--------------: | :------------------------------------------------------------:
+  ----------------------------------------------------------------- | :--------------: | :-----------------------------------------------:
   `template<typename T> emplace(Args&&... args)`                    | `reference_type` | constructs an element into the back of the queue
   `push(T&& element)`                                               | `reference_type` | inserts an element at the end of the queue
   `push(const_reference_type element)`                              | `reference_type` | inserts an element at the end of the queue
@@ -935,7 +936,7 @@ The queue data structure is a First In First Out (FIFO) data structure that stor
   <p>
    
   Variables    | Type           | Description
-  ------------ | :------------: | :---------------------------:
+  ------------ | :------------: | :----------:
   `m_Data`     | `deque<T>`      | a deque
   </p>
 </details>
@@ -1003,7 +1004,7 @@ The stack data structure is a Last In First Out (LIFO) or First In Last Out (FIL
   <p>
    
   Typedefs                 | Description
-  ------------------------ | :---------------------------------------------:
+  ------------------------ | :-------------------------:
   `value_type`             | value type T
   `pointer_type`           | value type pointer
   `reference_type`         | value type reference
@@ -1038,7 +1039,7 @@ The stack data structure is a Last In First Out (LIFO) or First In Last Out (FIL
   <p>
   
   Size Functions                           | Return Type              | Description
-  ---------------------------------------- | :----------------------: | :-----------------------------------------------------------------------------:
+  ---------------------------------------- | :----------------------: | :--------------------------------------------------:
   `empty() const`                          | `bool`                   | returns true if the stack is empty, false otherwise
   `size() const`                           | `size_t`                 | returns the size of the stack
   </p>
@@ -1049,7 +1050,7 @@ The stack data structure is a Last In First Out (LIFO) or First In Last Out (FIL
   <p>
    
   Mutator Functions                                                 | Return Type      | Description
-  ----------------------------------------------------------------- | :--------------: | :------------------------------------------------------------:
+  ----------------------------------------------------------------- | :--------------: | :------------------------------------------------:
   `template<typename T> emplace(Args&&... args)`                    | `reference_type` | constructs an element into the front of the stack
   `push(T&& element)`                                               | `reference_type` | inserts an element at the front of the stack
   `push(const_reference_type element)`                              | `reference_type` | inserts an element at the front of the stack
@@ -1062,8 +1063,8 @@ The stack data structure is a Last In First Out (LIFO) or First In Last Out (FIL
   <p>
   
   Variables    | Type           | Description
-  ------------ | :------------: | :---------------------------:
-  `m_Data`     | `deque<T>`      | a deque
+  ------------ | :------------: | :----------:
+  `m_Data`     | `deque<T>`     | a deque
   </p>
 </details>
 
@@ -1113,163 +1114,438 @@ The stack data structure is a Last In First Out (LIFO) or First In Last Out (FIL
 
 - - - -
 
-<details>
-<summary>WIP</summary>
-<p>
 
 ## __Iterators__ ##
 
 
 ### __Const Iterator__ ###
-- `mystl::const_iterator<class C>`
-- `Abstract Class`
 
-Typedefs               | Description
----------------------- | :---------------------------------------------:
-`value_type`           | value type of T
-`const_pointer_type`   | const value type pointer
-`const_reference_type` | const value type reference
-`ptrdiff_t`            | pointer difference: used for pointer arithmetic
+The const iterator data structure is a pointer to a constant object. In this project, the const iterator data structure is implemented using a raw const pointer. The const iterator has one template argument: a data type. Const iterators are most often used in classes, therefore the syntax for the template arguments uses `<class C>` rather than `<typename T>`. Most data structures (excluding queue and stack) have built in const iterator functions. Most common usage utilizes the `auto` keyword. To access the iterator without `auto`, the syntax is as follows: `mystl::data_structure<T>::const_iterator`.
 
-Constructor                                | Return Type                | Description                                                                            | Overloadable
------------------------------------------- | :------------------------: | :------------------------------------------------------------------------------------: | :----------:
-`const_iterator(const_pointer_type ptr)`   | `N/A`                      | constructor                                                                            | N
+> Syntax: `mystl::const_iterator<C>`
 
-Element Access                             | Return Type                | Description                                                                            | Overloadable
------------------------------------------- | :------------------------: | :------------------------------------------------------------------------------------: | :----------:
-`operator[](const size_t& offset)`         | `const_reference_type`     | returns a const reference at a given pointer offset                                    | Y
-`operator*()`                              | `const_reference_type`     | dereference operator                                                                   | N
-`operator->()`                             | `const_pointer_type`       | pointer operator                                                                       | N
+> **Note**
+> This class is the parent class of [iterator](#iterator "Goto iterator").
 
-Mutator  Functions                         | Return Type                | Description                                                                            | Overloadable
------------------------------------------- | :------------------------: | :------------------------------------------------------------------------------------: | :----------:
-`operator++`                               | `const_iterator reference` | (prefix) increments const_iterator                                                     | Y
-`operator++(int)`                          | `const_iterator`           | (postfix) increments const_iterator                                                    | Y
-`operator+(const size_t& offset)`          | `const_iterator reference` | increments const_iterator by an offset                                                 | Y
-`operator++`                               | `const_iterator reference` | (prefix) decrements const_iterator                                                     | Y
-`operator++(int)`                          | `const_iterator`           | (postfix) decrements const_iterator                                                    | Y
-`operator-(const size_t& offset)`          | `const_iterator reference` | decrements const_iterator by an offset                                                 | Y
-`operator-(const_iterator other)`          | `ptrdiff_t`                | returns the pointer difference between two const_iterators                             | Y
+<details>
+  <summary>Typedefs</summary>
+  <p>
+  
+  Typedefs               | Description
+  ---------------------- | :---------------------------------------------:
+  `value_type`           | value type of T
+  `const_pointer_type`   | const value type pointer
+  `const_reference_type` | const value type reference
+  `ptrdiff_t`            | pointer difference: used for pointer arithmetic
+  </p>
+</details>
 
-Equality Operators                         | Return Type                | Description                                                                            | Overloadable
------------------------------------------- | :------------------------: | :------------------------------------------------------------------------------------: | :----------:
-`operator==(const_iterator& other) const`  | `bool`                     | returns true if both const_iterators point to the same address, false otherwise        | N
-`operator!=(const_iterator& othter) const` | `bool`                     | returns true if the two const_iterators point to different addresses, false otherwise  | N
+<details>
+  <summary>Constructor/Destructor</summary>
+  <p>
+  
+  Constructor                                | Return Type                | Description      | Overloadable
+  ------------------------------------------ | :------------------------: | :--------------: | :----------:
+  `const_iterator(const_pointer_type ptr)`   | `N/A`                      | constructor      | N
+  </p>
+</details>
 
-Variables    | Type                 | Description
----------    | :------------------: | :---------------------:
-`m_ConstPtr` | `const_pointer_type` | const pointer to object
+<details>
+  <summary>Element Access</summary>
+  <p>
+  
+  Element Access                             | Return Type                | Description                                           | Overloadable
+  ------------------------------------------ | :------------------------: | :---------------------------------------------------: | :----------:
+  `operator[](const size_t& offset)`         | `const_reference_type`     | returns a const reference at a given pointer offset   | Y
+  `operator*()`                              | `const_reference_type`     | dereference operator                                  | N
+  `operator->()`                             | `const_pointer_type`       | pointer operator                                      | N
+  </p>
+</details>
+
+<details>
+  <summary>Mutator Functions</summary>
+  <p>
+  
+  Mutator Functions                          | Return Type                | Description                                                  | Overloadable
+  ------------------------------------------ | :------------------------: | :----------------------------------------------------------: | :----------:
+  `operator++`                               | `const_iterator reference` | (prefix) increments const_iterator.                          | Y
+  `operator++(int)`                          | `const_iterator`           | (postfix) increments const_iterator                          | Y
+  `operator+(const size_t& offset)`          | `const_iterator reference` | increments const_iterator by an offset                       | Y
+  `operator++`                               | `const_iterator reference` | (prefix) decrements const_iterator                           | Y
+  `operator++(int)`                          | `const_iterator`           | (postfix) decrements const_iterator                          | Y
+  `operator-(const size_t& offset)`          | `const_iterator reference` | decrements const_iterator by an offset                       | Y
+  `operator-(const_iterator other)`          | `ptrdiff_t`                | returns the pointer difference between two const_iterators   | Y
+  </p>
+</details>
+
+<details>
+  <summary>Equality Operators</summary>
+  <p>
+  
+  Equality Operators                         | Return Type                | Description                                                                            | Overloadable
+  ------------------------------------------ | :------------------------: | :----------------------------------------------------------:                           | :----------:
+  `operator==(const_iterator& other) const`  | `bool`                     | returns true if both const_iterators point to the same address, false otherwise        | N
+  `operator!=(const_iterator& othter) const` | `bool`                     | returns true if the two const_iterators point to different addresses, false otherwise  | N
+  </p>
+</details>
+
+<details>
+  <summary>Variables</summary>
+  <p>
+  
+  Variables    | Type                 | Description
+  ---------    | :------------------: | :---------------------:
+  `m_ConstPtr` | `const_pointer_type` | const pointer to object
+  </p>
+</details>
+
+<details>
+  <summary>Time Complexity</summary>
+  
+-   <details>
+      <summary>Element Access</summary>
+      <p>
+
+      Element Access                             | Time Complexity
+      ------------------------------------------ | :--------------:
+      `operator[](const size_t& offset)`         | O(1)
+      `operator*()`                              | O(1)
+      `operator->()`                             | O(1)
+      </p>
+    </details>
+
+-   <details>
+      <summary>Mutator Functions</summary>
+      <p>
+
+      Mutator Functions                          | Time Complexity
+      ------------------------------------------ | :--------------:
+      `operator++`                               | O(1)
+      `operator++(int)`                          | O(1)
+      `operator+(const size_t& offset)`          | O(1)
+      `operator++`                               | O(1)
+      `operator++(int)`                          | O(1)
+      `operator-(const size_t& offset)`          | O(1)
+      `operator-(const_iterator other)`          | O(1)
+      </p>
+    </details>
+
+-   <details>
+      <summary>Equality Operators</summary>
+      <p>
+
+      Equality Operators                         | Time Complexity
+      ------------------------------------------ | :--------------:
+      `operator==(const_iterator& other) const`  | O(1)
+      `operator!=(const_iterator& othter) const` | O(1)
+      </p>
+    </details>
+    </p>
+</details>
 
 
 - - - -
 
 
 ### __Iterator__ ###
-- `mystl::iterator<class C>`
 
-Typedefs         | Description
----------------- | :---------------------------------------------:
-`base_class`     | base class that iterator inherits from(const_iterator)
-`value_type`     | value type of T
-`pointer_type`   | const value type pointer
-`reference_type` | const value type reference
-`ptrdiff_t`      | pointer difference: used for pointer arithmetic
+The iterator data structure is a pointer to a mutable object. In this project, the iterator data structure is implemented using a raw pointer. The iterator has one template argument: a data type. Iterators are most often used in classes, therefore the syntax for the template arguments uses `<class C>` rather than `<typename T>`. Most data structures (excluding queue and stack) have built in iterator functions. Most common usage utilizes the `auto` keyword. To access the iterator without `auto`, the syntax is as follows: `mystl::data_structure<T>::iterator`.
 
-Constructor                                | Return Type                | Description                                                          | Overloadable
------------------------------------------- | :------------------------: | :------------------------------------------------------------------: | :----------:
-`iterator(pointer_type ptr)`               | `N/A`                      | constructor                                                          | N
+> Syntax: `mystl::iterator<C>`
 
-Element Access                             | Return Type          | Description                                                                | Overloadable
------------------------------------------- | :------------------: | :------------------------------------------------------------------------- | :----------:
-`operator[](const size_t& offset)`         | `reference_type`     | returns a reference at a given pointer offset                              | Y
-`operator*()`                              | `reference_type`     | dereference operator                                                       | N
-`operator->()`                             | `pointer_type`       | pointer operator                                                           | N
+> **Note**
+> This class inherits from [const_iterator](#const-iterator "Goto const-iterator")
 
-Mutator  Functions                         | Return Type          | Description                                                                | Overloadable
------------------------------------------- | :------------------: | :------------------------------------------------------------------------: | :----------:
-`operator++`                               | `iterator reference` | (prefix) increments iterator                                               | Y
-`operator++(int)`                          | `iterator`           | (postfix) increments iterator                                              | Y
-`operator+(const size_t& offset)`          | `iterator reference` | increments iterator by an offset                                           | Y
-`operator++`                               | `iterator reference` | (prefix) decrements iterator                                               | Y
-`operator++(int)`                          | `iterator`           | (postfix) decrements iterator                                              | Y
-`operator-(const size_t& offset)`          | `iterator reference` | decrements iterator by an offset                                           | Y
-`operator-(iterator other)`          | `ptrdiff_t`                | returns the pointer difference between two iterators                       | Y
+<details>
+  <summary>Typedefs</summary>
+  <p>
+  
+  Typedefs         | Description
+  ---------------- | :---------------------------------------------:
+  `base_class`     | base class that iterator inherits from(const_iterator)
+  `value_type`     | value type of T
+  `pointer_type`   | const value type pointer
+  `reference_type` | const value type reference
+  `ptrdiff_t`      | pointer difference: used for pointer arithmetic
+  </p>
+</details>
 
-Equality Operators                         | Return Type                | Description                                                                            | Overloadable
------------------------------------------- | :------------------------: | :------------------------------------------------------------------------------------: | :----------:
-`operator==(const_iterator& other) const`  | `bool`                     | returns true if both const_iterators point to the same address, false otherwise        | N
-`operator!=(const_iterator& othter) const` | `bool`                     | returns true if the two const_iterators point to different addresses, false otherwise  | N
+<details>
+  <summary>Constructor/Destructor</summary>
+  <p>
+  
+  Constructor                                | Return Type                | Description  | Overloadable
+  ------------------------------------------ | :------------------------: | :----------: | :----------:
+  `iterator(pointer_type ptr)`               | `N/A`                      | constructor  | N
+  </p>
+</details>
+
+<details>
+  <summary>Typedefs</summary>
+  <p>
+  
+  Element Access                             | Return Type          | Description                                     | Overloadable
+  ------------------------------------------ | :------------------: | :---------------------------------------------: | :----------:
+  `operator[](const size_t& offset)`         | `reference_type`     | returns a reference at a given pointer offset   | Y
+  `operator*()`                              | `reference_type`     | dereference operator                            | N
+  `operator->()`                             | `pointer_type`       | pointer operator                                | N
+  </p>
+</details>
+
+<details>
+  <summary>Mutator Functions</summary>
+  <p>
+  
+  Mutator Functions                          | Return Type          | Description                                            | Overloadable
+  ------------------------------------------ | :------------------: | :----------------------------------------------------: | :----------:
+  `operator++`                               | `iterator reference` | (prefix) increments iterator                           | Y
+  `operator++(int)`                          | `iterator`           | (postfix) increments iterator                          | Y
+  `operator+(const size_t& offset)`          | `iterator reference` | increments iterator by an offset                       | Y
+  `operator++`                               | `iterator reference` | (prefix) decrements iterator                           | Y
+  `operator++(int)`                          | `iterator`           | (postfix) decrements iterator                          | Y
+  `operator-(const size_t& offset)`          | `iterator reference` | decrements iterator by an offset                       | Y
+  `operator-(iterator other)`                | `ptrdiff_t`          | returns the pointer difference between two iterators   | Y
+  </p>
+</details>
+
+<details>
+  <summary>Equality Operators</summary>
+  <p>
+  
+  Equality Operators                         | Return Type                | Description                                                                      | Overloadable
+  ------------------------------------------ | :------------------------: | :------------------------------------------------------------------------------: | :----------:
+  `operator==(const_iterator& other) const`  | `bool`                     | returns true if both iterators point to the same address, false otherwise        | N
+  `operator!=(const_iterator& othter) const` | `bool`                     | returns true if the two iterators point to different addresses, false otherwise  | N
+  </p>
+</details>
+
+<details>
+  <summary>Time Complexity</summary>
+  
+-   <details>
+      <summary>Element Access</summary>
+      <p>
+
+      Element Access                             | Time Complexity
+      ------------------------------------------ | :--------------:
+      `operator[](const size_t& offset)`         | O(1)
+      `operator*()`                              | O(1)
+      `operator->()`                             | O(1)
+      </p>
+    </details>
+
+-   <details>
+      <summary>Mutator Functions</summary>
+      <p>
+
+      Mutator Functions                          | Time Complexity
+      ------------------------------------------ | :--------------:
+      `operator++`                               | O(1)
+      `operator++(int)`                          | O(1)
+      `operator+(const size_t& offset)`          | O(1)
+      `operator++`                               | O(1)
+      `operator++(int)`                          | O(1)
+      `operator-(const size_t& offset)`          | O(1)
+      `operator-(const_iterator other)`          | O(1)
+      </p>
+    </details>
+
+-   <details>
+      <summary>Equality Operators</summary>
+      <p>
+
+      Equality Operators                         | Time Complexity
+      ------------------------------------------ | :--------------:
+      `operator==(const_iterator& other) const`  | O(1)
+      `operator!=(const_iterator& othter) const` | O(1)
+      </p>
+    </details>
+    </p>
+</details>
 
 
 - - - -
 
 
 ### __Const Reverse Iterator__ ###
-- `mystl::const_reverse_iterator<class C>`
-- `Abstract Class`
 
-Typedefs               | Description
----------------------- | :------------------------:
-`iterator_type`        | type of iterator T
-`value_type`           | value type of T
-`const_pointer_type`   | const value type pointer
-`const_reference_type` | const value type reference
+The const reverse iterator data structure is a pointer to a constant object. In this project, the const reverse iterator data structure is implemented using a const raw pointer. The const reverse iterator has one template argument: a data type. Const reverse iterators are most often used in classes, therefore the syntax for the template arguments uses `<class C>` rather than `<typename T>`. Most data structures (excluding queue and stack) have built in const reverse iterator functions. Most common usage utilizes the `auto` keyword. To access the reverse iterator without `auto`, the syntax is as follows: `mystl::data_structure<T>::const_reverse_iterator`.
 
-Constructor                                      | Return Type                        | Description                                          | Overloadable
------------------------------------------------- | :--------------------------------: | :--------------------------------------------------: | :----------:
-`const_reverse_iterator(const_pointer_type ptr)` | `N/A`                              | constructor                                          | N
+> Syntax: `mystl::const_reverse_iterator<C>`
 
-Element Access                                   | Return Type                        | Description                                          | Overloadable
------------------------------------------------- | :------------------:               | :--------------------------------------------------: | :----------:
-`operator[](const size_t& offset)`               | `const_reference_type`             | returns a const reference at a given pointer offset  | Y
-`operator*()`                                    | `const_reference_type`             | dereference operator                                 | N
-`operator->()`                                   | `const_pointer_type`               | pointer operator                                     | N
+> **Note**
+> This class is the parent class of [reverse_iterator](#reverse-iterator "Goto reverse-iterator")
 
-Mutator  Functions                               | Return Type                        | Description                                            | Overloadable
------------------------------------------------- | :--------------------------------: | :----------------------------------------------------: | :----------:
-`operator++`                                     | `const_reverse_iterator reference` | (prefix) decrements const_reverse_iterator             | Y
-`operator++(int)`                                | `const_reverse_iterator`           | (postfix) decrements const_reverse_iterator            | Y
-`operator+(const size_t& offset)`                | `const_reverse_iterator reference` | decrements const_reverse_iterator by an offset         | Y
-`operator++`                                     | `const_reverse_iterator reference` | (prefix) increments const_reverse_iterator             | Y
-`operator++(int)`                                | `const__reverse_iterator`          | (postfix) increments const_reverse_iterator            | Y
-`operator-(const size_t& offset)`                | `const_reverse_iterator reference` | increments const_reverse_iterator by an offset         | Y
 
-Equality Operators                               | Return Type                | Description                                                                                   | Overloadable
------------------------------------------------- | :------------------------: | :-------------------------------------------------------------------------------------------: | :----------:
-`operator==(const_iterator& other) const`        | `bool`                     | returns true if both const_reverse_iterators point to the same address, false otherwise       | N
-`operator!=(const_iterator& othter) const`       | `bool`                     | returns true if the two const_reverse_iterators point to different addresses, false otherwise | N
+<details>
+  <summary>Typedefs</summary>
+  <p>
 
-Variables       | Type                 | Description
---------------- | :------------------: | :-----------------------:
-`m_ConstRevPtr` | `const_pointer_type` | const pointer to object
+  Typedefs               | Description
+  ---------------------- | :------------------------:
+  `iterator_type`        | type of iterator T
+  `value_type`           | value type of T
+  `const_pointer_type`   | const value type pointer
+  `const_reference_type` | const value type reference
+  </p>
+</details>
+
+
+<details>
+  <summary>Constructor/Destructor</summary>
+  <p>
+
+  Constructor                                      | Return Type                        | Description                                          | Overloadable
+  ------------------------------------------------ | :--------------------------------: | :--------------------------------------------------: | :----------:
+  `const_reverse_iterator(const_pointer_type ptr)` | `N/A`                              | constructor                                          | N
+  </p>
+</details>
+
+<details>
+  <summary>Element Access</summary>
+  <p>
+  
+  Element Access                                   | Return Type                        | Description                                          | Overloadable
+  ------------------------------------------------ | :------------------:               | :--------------------------------------------------: | :----------:
+  `operator[](const size_t& offset)`               | `const_reference_type`             | returns a const reference at a given pointer offset  | Y
+  `operator*()`                                    | `const_reference_type`             | dereference operator                                 | N
+  `operator->()`                                   | `const_pointer_type`               | pointer operator                                     | N
+  </p>
+</details>
+
+<details>
+  <summary>Mutator Functions</summary>
+  <p>
+  
+  Mutator Functions                                | Return Type                        | Description                                            | Overloadable
+  ------------------------------------------------ | :--------------------------------: | :----------------------------------------------------: | :----------:
+  `operator++`                                     | `const_reverse_iterator reference` | (prefix) decrements const_reverse_iterator             | Y
+  `operator++(int)`                                | `const_reverse_iterator`           | (postfix) decrements const_reverse_iterator            | Y
+  `operator+(const size_t& offset)`                | `const_reverse_iterator reference` | decrements const_reverse_iterator by an offset         | Y
+  `operator++`                                     | `const_reverse_iterator reference` | (prefix) increments const_reverse_iterator             | Y
+  `operator++(int)`                                | `const__reverse_iterator`          | (postfix) increments const_reverse_iterator            | Y
+  `operator-(const size_t& offset)`                | `const_reverse_iterator reference` | increments const_reverse_iterator by an offset         | Y
+  </p>
+</details>
+
+<details>
+  <summary>Equality Operators</summary>
+  <p>
+  
+  Equality Operators                               | Return Type                | Description                                                                                   | Overloadable
+  ------------------------------------------------ | :------------------------: | :-------------------------------------------------------------------------------------------: | :----------:
+  `operator==(const_iterator& other) const`        | `bool`                     | returns true if both const_reverse_iterators point to the same address, false otherwise       | N
+  `operator!=(const_iterator& othter) const`       | `bool`                     | returns true if the two const_reverse_iterators point to different addresses, false otherwise | N
+  </p>
+</details>
+
+<details>
+  <summary>Variables</summary>
+  <p>
+  
+  Variables       | Type                 | Description
+  --------------- | :------------------: | :-----------------------:
+  `m_ConstRevPtr` | `const_pointer_type` | const pointer to object
+  </p>
+</details>
+
+<details>
+  <summary>Time Complexity</summary>
+  
+-   <details>
+      <summary>Element Access</summary>
+      <p>
+
+      Element Access                             | Time Complexity
+      ------------------------------------------ | :--------------:
+      `operator[](const size_t& offset)`         | O(1)
+      `operator*()`                              | O(1)
+      `operator->()`                             | O(1)
+      </p>
+    </details>
+
+-   <details>
+      <summary>Mutator Functions</summary>
+      <p>
+
+      Mutator Functions                          | Time Complexity
+      ------------------------------------------ | :--------------:
+      `operator++`                               | O(1)
+      `operator++(int)`                          | O(1)
+      `operator+(const size_t& offset)`          | O(1)
+      `operator++`                               | O(1)
+      `operator++(int)`                          | O(1)
+      `operator-(const size_t& offset)`          | O(1)
+      </p>
+    </details>
+
+-   <details>
+      <summary>Equality Operators</summary>
+      <p>
+
+      Equality Operators                         | Time Complexity
+      ------------------------------------------ | :--------------:
+      `operator==(const_iterator& other) const`  | O(1)
+      `operator!=(const_iterator& othter) const` | O(1)
+      </p>
+    </details>
+    </p>
+</details>
 
 
 - - - -
 
 
 ### __Reverse Iterator__ ###
-- `mystl::reverse_iterator<class C>`
-- `Abstract Class`
 
-Typedefs               | Description
----------------------- | :------------------------:
-`base_class`           | base class that reverse_iterator inherits from(const_reverse_iterator)
-`iterator_type`        | type of iterator T
-`value_type`           | value type of T
-`pointer_type`         | const value type pointer
-`reference_type`       | const value type reference
+The reverse iterator data structure is a pointer to a mutable object. In this project, the reverse iterator data structure is implemented using a raw pointer. The reverse iterator has one template argument: a data type. Reverse iterators are most often used in classes, therefore the syntax for the template arguments uses `<class C>` rather than `<typename T>`. Most data structures (excluding queue and stack) have built in reverse iterator functions. Most common usage utilizes the `auto` keyword. To access the reverse iterator without `auto`, the syntax is as follows: `mystl::data_structure<T>::reverse_iterator`.
 
-Constructor                                      | Return Type                        | Description                                          | Overloadable
------------------------------------------------- | :--------------------------------: | :--------------------------------------------------: | :----------:
-`reverse_iterator(pointer_type ptr)`             | `N/A`                              | constructor                                          | N
+> Syntax: `mystl::reverse_iterator<C>`
 
-Element Access                                   | Return Type                  | Description                                          | Overloadable
------------------------------------------------- | :------------------:         | :--------------------------------------------------: | :----------:
-`operator[](const size_t& offset)`               | `reference_type`             | returns a const reference at a given pointer offset  | Y
-`operator*()`                                    | `reference_type`             | dereference operator                                 | N
-`operator->()`                                   | `pointer_type`               | pointer operator                                     | N
+> **Note**
+> This class inherits from [const_reverse_iterator](#const-reverse-iterator "Goto const-reverse-iterator")
 
-Mutator  Functions                               | Return Type                  | Description                                            | Overloadable
+<details>
+  <summary>Typedefs</summary>
+  <p>
+  
+  Typedefs               | Description
+  ---------------------- | :------------------------:
+  `base_class`           | base class that reverse_iterator inherits from(const_reverse_iterator)
+  `iterator_type`        | type of iterator T
+  `value_type`           | value type of T
+  `pointer_type`         | const value type pointer
+  `reference_type`       | const value type reference
+  </p>
+</details>
+
+<details>
+  <summary>Constructor/Destructor</summary>
+  <p>
+  
+  Constructor                                      | Return Type                        | Description                                          | Overloadable
+  ------------------------------------------------ | :--------------------------------: | :--------------------------------------------------: | :----------:
+  `reverse_iterator(pointer_type ptr)`             | `N/A`                              | constructor                                          | N
+  </p>
+</details>
+
+<details>
+  <summary>Element Access</summary>
+  <p>
+
+  Element Access                                   | Return Type                  | Description                                          | Overloadable
+  ------------------------------------------------ | :------------------:         | :--------------------------------------------------: | :----------:
+  `operator[](const size_t& offset)`               | `reference_type`             | returns a const reference at a given pointer offset  | Y
+  `operator*()`                                    | `reference_type`             | dereference operator                                 | N
+  `operator->()`                                   | `pointer_type`               | pointer operator                                     | N
+  </p>
+</details>
+
+<details>
+  <summary>Mutator Functions</summary>
+  <p>
+  
+Mutator Functions                                | Return Type                  | Description                                            | Overloadable
 ------------------------------------------------ | :--------------------------: | :----------------------------------------------------: | :----------:
 `operator++`                                     | `reverse_iterator reference` | (prefix) decrements const_reverse_iterator             | Y
 `operator++(int)`                                | `reverse_iterator`           | (postfix) decrements const_reverse_iterator            | Y
@@ -1277,11 +1553,72 @@ Mutator  Functions                               | Return Type                  
 `operator++`                                     | `reverse_iterator reference` | (prefix) increments const_reverse_iterator             | Y
 `operator++(int)`                                | `reverse_iterator`           | (postfix) increments const_reverse_iterator            | Y
 `operator-(const size_t& offset)`                | `reverse_iterator reference` | increments const_reverse_iterator by an offset         | Y
+  </p>
+</details>
 
-Equality Operators                               | Return Type                | Description                                                                                   | Overloadable
------------------------------------------------- | :------------------------: | :-------------------------------------------------------------------------------------------: | :----------:
-`operator==(const_iterator& other) const`        | `bool`                     | returns true if both const_reverse_iterators point to the same address, false otherwise       | N
-`operator!=(const_iterator& othter) const`       | `bool`                     | returns true if the two const_reverse_iterators point to different addresses, false otherwise | N
+<details>
+  <summary>Equality Operators</summary>
+  <p>
+  
+  Equality Operators                               | Return Type                | Description                                                                                   | Overloadable
+  ------------------------------------------------ | :------------------------: | :-------------------------------------------------------------------------------------------: | :----------:
+  `operator==(const_iterator& other) const`        | `bool`                     | returns true if both const_reverse_iterators point to the same address, false otherwise       | N
+  `operator!=(const_iterator& othter) const`       | `bool`                     | returns true if the two const_reverse_iterators point to different addresses, false otherwise | N
+  </p>
+</details>
+
+<details>
+  <summary>Variables</summary>
+  <p>
+  
+  Variables       | Type                 | Description
+  --------------- | :------------------: | :-----------------------:
+  `m_ConstRevPtr` | `const_pointer_type` | const pointer to object
+  </p>
+</details>
+
+<details>
+  <summary>Time Complexity</summary>
+  
+-   <details>
+      <summary>Element Access</summary>
+      <p>
+
+      Element Access                             | Time Complexity
+      ------------------------------------------ | :--------------:
+      `operator[](const size_t& offset)`         | O(1)
+      `operator*()`                              | O(1)
+      `operator->()`                             | O(1)
+      </p>
+    </details>
+
+-   <details>
+      <summary>Mutator Functions</summary>
+      <p>
+
+      Mutator Functions                          | Time Complexity
+      ------------------------------------------ | :--------------:
+      `operator++`                               | O(1)
+      `operator++(int)`                          | O(1)
+      `operator+(const size_t& offset)`          | O(1)
+      `operator++`                               | O(1)
+      `operator++(int)`                          | O(1)
+      `operator-(const size_t& offset)`          | O(1)
+      </p>
+    </details>
+
+-   <details>
+      <summary>Equality Operators</summary>
+      <p>
+
+      Equality Operators                         | Time Complexity
+      ------------------------------------------ | :--------------:
+      `operator==(const_iterator& other) const`  | O(1)
+      `operator!=(const_iterator& othter) const` | O(1)
+      </p>
+    </details>
+    </p>
+</details>
 
 
 - - - -
@@ -1290,29 +1627,47 @@ Equality Operators                               | Return Type                | 
 ### __List Iterator__ ###
 
 
-
+- - - -
 
 
 ## __Smaller Data Structures__ ##
 
 ### __Node__ ###
-Typedefs               | Description
----------------------- | :------------------------:
-`value_type`           | value type of T
 
-Constructor                    | Return Type  | Description
-----------------------         | :----------: | :------------:
-`node()`                       | `N/A`        | default constructor
-`node(const value_type& data)` | `N/A`        | assigns data to a specified value
-`~node()`                      | `N/A`        | default destructor
+The node struct is a simple subcontainer. In this project, the node data structure is implemented using a templated type and two other nodes. The node takes in one template argument: a data type. Nodes are most used in linked list data structures.
 
-Variables    | Type          | Description
------------- | :-----------: | :---------------------------:
-`data`       | `value_type`  | data that the node holds
-`next`       | `node*`       | pointer to the next node
-`prev`       | `node*`       | pointer to the previous node
+<details>
+  <summary>Typedefs</summary>
+  <p>
+  
+  Typedefs               | Description
+  ---------------------- | :------------------------:
+  `value_type`           | value type of T
+  </p>
+</details>
 
+<details>
+  <summary>Constructor/Destructor</summary>
+  <p>
+  
+  Constructor                    | Return Type  | Description
+  ----------------------         | :----------: | :------------:
+  `node()`                       | `N/A`        | default constructor
+  `node(const value_type& data)` | `N/A`        | assigns data to a specified value
+  `~node()`                      | `N/A`        | default destructor
+  </p>
+</details>
+
+<details>
+  <summary>Variables</summary>
+  <p>
+  
+  Variables    | Type          | Description
+  ------------ | :-----------: | :---------------------------:
+  `data`       | `value_type`  | data that the node holds
+  `next`       | `node*`       | pointer to the next node
+  `prev`       | `node*`       | pointer to the previous node
+  </p>
+</details>
 
 - - - -
-</p>
-</details>
