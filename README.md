@@ -306,7 +306,8 @@ The vector data structure stores elements of a specified data type in a contiguo
   `empty() const`                          | `bool`                   | returns true if the vector is empty, false otherwise
   `size() const`                           | `size_t`                 | returns the size of the vector
   `max_size() const`                       | `size_t`                 | returns the max size of the vector
-  </p>
+  `capacity() const`                       | `size_t`                 | returns the capacity of the vector
+   </p>
 </details>
 
 <details>
@@ -395,9 +396,10 @@ The vector data structure stores elements of a specified data type in a contiguo
 
       Size Functions      | Time Complexity
       ------------------- | :--------------:
+      `empty() const`     | O(1)
       `size() const`      | O(1)
       `max_size() const`  | O(1)
-      `empty() const`     | O(1)
+      `capacity() const`  | O(1)
       </p>
     </details>
 
