@@ -215,7 +215,7 @@ The array data structure stores elements of a specified data type in a contiguou
 -   <details>
       <summary>Iterator Functions</summary>
       <p>
-
+      
       Iterator Functions                       | Time Complexity
       ---------------------------------------- | :--------------:
       `cbegin() const`                         | O(1)
@@ -433,17 +433,17 @@ The vector data structure stores elements of a specified data type in a contiguo
 -   <details>
       <summary>Iterator Functions</summary>
       <p>
-
-        Iterator Functions                       | Time Complexity
-        ---------------------------------------- | :--------------:
-        `cbegin() const`                         | O(1)
-        `cend() const`                           | O(1)
-        `begin()`                                | O(1)
-        `end()`                                  | O(1)
-        `crbegin() const`                        | O(1)
-        `crend() const`                          | O(1)
-        `rbegin()`                               | O(1)
-        `rend()`                                 | O(1)
+      
+      Iterator Functions                       | Time Complexity
+      ---------------------------------------- | :--------------:
+      `cbegin() const`                         | O(1)
+      `cend() const`                           | O(1)
+      `begin()`                                | O(1)
+      `end()`                                  | O(1)
+      `crbegin() const`                        | O(1)
+      `crend() const`                          | O(1)
+      `rbegin()`                               | O(1)
+      `rend()`                                 | O(1)
       </p>
     </details>
     </p>
@@ -654,16 +654,16 @@ The list data structure is a representation of a linked list and stores elements
       <summary>Iterator Functions</summary>
       <p>
 
-        Iterator Functions                       | Time Complexity
-        ---------------------------------------- | :--------------:
-        `cbegin() const`                         | O(1)
-        `cend() const`                           | O(1)
-        `begin()`                                | O(1)
-        `end()`                                  | O(1)
-        `crbegin() const`                        | O(1)
-        `crend() const`                          | O(1)
-        `rbegin()`                               | O(1)
-        `rend()`                                 | O(1)
+      Iterator Functions                       | Time Complexity
+      ---------------------------------------- | :--------------:
+      `cbegin() const`                         | O(1)
+      `cend() const`                           | O(1)
+      `begin()`                                | O(1)
+      `end()`                                  | O(1)
+      `crbegin() const`                        | O(1)
+      `crend() const`                          | O(1)
+      `rbegin()`                               | O(1)
+      `rend()`                                 | O(1)
       </p>
     </details>
     </p>
@@ -842,16 +842,16 @@ The deque data structures is a double ended queue that stores elements of a spec
       <summary>Iterator Functions</summary>
       <p>
 
-        Iterator Functions                       | Time Complexity
-        ---------------------------------------- | :--------------:
-        `cbegin() const`                         | O(1)
-        `cend() const`                           | O(1)
-        `begin()`                                | O(1)
-        `end()`                                  | O(1)
-        `crbegin() const`                        | O(1)
-        `crend() const`                          | O(1)
-        `rbegin()`                               | O(1)
-        `rend()`                                 | O(1)
+      Iterator Functions                       | Time Complexity
+      ---------------------------------------- | :--------------:
+      `cbegin() const`                         | O(1)
+      `cend() const`                           | O(1)
+      `begin()`                                | O(1)
+      `end()`                                  | O(1)
+      `crbegin() const`                        | O(1)
+      `crend() const`                          | O(1)
+      `rbegin()`                               | O(1)
+      `rend()`                                 | O(1)
       </p>
     </details>
     </p>
