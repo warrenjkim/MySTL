@@ -41,11 +41,6 @@ namespace mystl
 		constexpr							deque(const size_t& size);
 		constexpr							deque(const size_t& size, const_reference_type fillElement);
 
-	// size functions
-	public:
-		constexpr	bool					empty() const;
-		constexpr	size_t					size() const;
-
 	// element access
 	public:
 		constexpr	reference_type			operator[](const size_t& offset);
@@ -55,19 +50,24 @@ namespace mystl
 		constexpr	const_reference_type	front() const;
 		constexpr	const_reference_type	back() const;
 
+	// size functions
+	public:
+		constexpr	bool					empty() const;
+		constexpr	size_t					size() const;
+
 	// mutator functions
 	public:
-		constexpr	reference_type			push_front(T&& element);
-		constexpr	reference_type			push_front(const_reference_type element);
-
-		constexpr	reference_type			push_back(T&& element);
-		constexpr	reference_type			push_back(const_reference_type element);
-
 		template<typename... Args>
 		constexpr	reference_type			emplace_front(Args&&... args);
 
 		template<typename... Args>
 		constexpr	reference_type			emplace_back(Args&&... args);
+
+		constexpr	reference_type			push_front(T&& element);
+		constexpr	reference_type			push_front(const_reference_type element);
+
+		constexpr	reference_type			push_back(T&& element);
+		constexpr	reference_type			push_back(const_reference_type element);
 
 		constexpr	value_type				pop_front();
 		constexpr	value_type				pop_back();
