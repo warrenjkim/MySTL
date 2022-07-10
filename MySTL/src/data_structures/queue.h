@@ -32,11 +32,6 @@ namespace mystl
 	public:
 		constexpr							queue();
 
-	// size functions
-	public:
-		constexpr	size_t					size() const;
-		constexpr	bool					empty() const;
-
 	// element access
 	public:
 		constexpr	reference_type			front();
@@ -44,6 +39,11 @@ namespace mystl
 
 		constexpr	reference_type			back();
 		constexpr	const_reference_type	back() const;
+
+	// size functions
+	public:
+		constexpr	size_t					size() const;
+		constexpr	bool					empty() const;
 
 	// mutator functions
 	public:
@@ -64,20 +64,6 @@ namespace mystl
 	constexpr queue<T>::queue() : m_Data()
 	{
 
-	}
-
-	template<typename T>
-	constexpr size_t 
-		queue<T>::size() const
-	{
-		return m_Data.size();
-	}
-
-	template<typename T>
-	constexpr bool 
-		queue<T>::empty() const
-	{
-		return m_Data.empty();
 	}
 
 	template<typename T>
@@ -106,6 +92,20 @@ namespace mystl
 		queue<T>::back() const
 	{
 		return m_Data.back();
+	}
+
+	template<typename T>
+	constexpr size_t 
+		queue<T>::size() const
+	{
+		return m_Data.size();
+	}
+
+	template<typename T>
+	constexpr bool 
+		queue<T>::empty() const
+	{
+		return m_Data.empty();
 	}
 
 	template<typename T>
