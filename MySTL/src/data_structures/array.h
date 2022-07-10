@@ -192,9 +192,7 @@ namespace mystl
 	{
 		EMPTY_ARRAY();
 		for (size_t i = 0; i < m_Size; i++)
-		{
 			m_Data[i] = filler;
-		}
 	}
 
 	template<typename T, size_t m_Size>
