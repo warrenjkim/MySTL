@@ -48,6 +48,7 @@ namespace mystl
 	// element access
 	public:
 		constexpr	reference_type			operator[](const size_t& offset);
+		constexpr	const_reference_type	operator[](const size_t& offset) const;
 		constexpr	reference_type			front();
 		constexpr	reference_type			back();
 
@@ -145,18 +146,14 @@ namespace mystl
 	constexpr list<T>::list(const size_t& size, const_reference_type fillElement) : m_Head(nullptr), m_Tail(nullptr), m_Size(size)
 	{
 		for (size_t i = 0; i < size; i++)
-		{
 			emplace_front(fillElement);
-		}
 	}
 
 	template<typename T>
 	inline list<T>::~list()
 	{
 		while (!empty())
-		{
 			pop_front();
-		}
 	}
 
 	template<typename T>
@@ -177,11 +174,15 @@ namespace mystl
 		node_ptr temp = m_Head;
 		
 		for (size_t i = 0; i < offset; i++)
-		{
 			temp = temp->next;
-		}
 
 		return temp->data;
+	}
+
+	template<typename T>
+	constexpr typename list<T>::const_reference_type list<T>::operator[](const size_t& offset) const
+	{
+		return this->operator[](offset);
 	}
 
 	template<typename T>
@@ -212,9 +213,7 @@ namespace mystl
 	constexpr void list<T>::assign(const size_t& size, const_reference_type fillElement)
 	{
 		for (size_t i = 0; i < size; i++)
-		{
 			emplace_front(fillElement);
-		}
 	}
 
 	template<typename T>
@@ -227,9 +226,7 @@ namespace mystl
 	constexpr void list<T>::assign(pointer_type first, pointer_type second)
 	{
 		while (first != second)
-		{
 			emplace_front(*(first++));
-		}
 	}
 
 	template<typename T>
@@ -334,9 +331,7 @@ namespace mystl
 	constexpr typename list<T>::value_type list<T>::pop_front()
 	{
 		if (!m_Head)
-		{
 			return value_type();
-		}
 
 		node_ptr temp = m_Head;
 		m_Head = m_Head->next;
@@ -352,9 +347,7 @@ namespace mystl
 	constexpr typename list<T>::value_type list<T>::pop_back()
 	{
 		if (!m_Head)
-		{
 			return value_type();
-		}
 
 		node_ptr temp = m_Tail;
 		m_Tail = m_Tail->prev;
@@ -377,9 +370,7 @@ namespace mystl
 	inline void list<T>::clear()
 	{
 		while (m_Head)
-		{
 			pop_front();
-		}
 	}
 
 	
@@ -403,9 +394,7 @@ namespace mystl
 	inline void list<T>::resize(const size_t& size)
 	{
 		while (m_Size > size)
-		{
 			pop_back();
-		}
 	}
 
 	template<typename T>
@@ -416,9 +405,7 @@ namespace mystl
 		while (temp->data != element)
 		{
 			if (!temp->next)
-			{
 				return reference_type();
-			}
 
 			temp = temp->next;
 		}
@@ -442,9 +429,7 @@ namespace mystl
 		while (temp->data != element)
 		{
 			if (!temp->next)
-			{
 				return reference_type();
-			}
 
 			temp = temp->next;
 		}
@@ -466,9 +451,7 @@ namespace mystl
 		node_ptr temp = m_Head;
 
 		while (temp != *position)
-		{
 			temp = temp->next;
-		}
 
 		remove(temp->data);
 
@@ -480,9 +463,7 @@ namespace mystl
 	{
 		iterator temp = first;
 		while (first != last)
-		{
 			erase(first++);
-		}
 
 		return temp;
 	}
@@ -510,9 +491,7 @@ namespace mystl
 	constexpr void list<T>::reverse()
 	{
 		if (!m_Head)
-		{
 			return;
-		}
 
 		node_ptr curr = m_Head;
 		m_Tail = curr;
