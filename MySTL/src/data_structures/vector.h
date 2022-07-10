@@ -129,9 +129,7 @@ namespace mystl
 	{
 		realloc(capacity);
 		for (size_t i = 0; i < m_Capacity; i++)
-		{
 			m_Data[i] = std::move(fillElement);
-		}
 	}
 
 	template<typename T>
@@ -139,9 +137,7 @@ namespace mystl
 	{
 		realloc(capacity);
 		for (size_t i = 0; i < m_Capacity; i++)
-		{
 			m_Data[i] = fillElement;
-		}
 	}
 
 	template<typename T>
@@ -247,30 +243,14 @@ namespace mystl
 	constexpr typename vector<T>::reference_type 
 		vector<T>::push_back(T&& element)
 	{
-		if (m_Size >= m_Capacity)
-		{
-			size_t growth = m_Size < 5 ? m_Capacity * 2 : m_Capacity + (m_Capacity << 1);
-			realloc(growth);
-		}
-
-		m_Data[m_Size] = std::move(element);
-
-		return m_Data[m_Size++];
+		return emplace_back(element);
 	}
 
 	template<typename T>
 	constexpr typename vector<T>::reference_type 
 		vector<T>::push_back(const_reference_type element)
 	{
-		if (m_Size >= m_Capacity)
-		{
-			size_t growth = m_Size < 5 ? m_Capacity * 2 : m_Capacity + (m_Capacity << 1);
-			realloc(growth);
-		}
-
-		m_Data[m_Size] = element;
-
-		return m_Data[m_Size++];
+		return emplace_back(element);
 	}
 
 	template<typename T>
@@ -313,9 +293,7 @@ namespace mystl
 		size_t i = 0;
 
 		while (it != end())
-		{
 			temp[i++] = std::move(*(it++));
-		}
 
 		size_t size = i;
 
@@ -327,17 +305,16 @@ namespace mystl
 		while (diff > 0)
 		{
 			*(it++) = temp[i++];
-
 			diff--;
 		}
 
 		
 		for (size_t i = 0; i < size; i++)
-		{
 			temp[i].~T();
-		}
+
 		::operator delete(temp, size * sizeof(T));
 		m_Size++;
+
 		return position;
 	}
 
@@ -357,9 +334,7 @@ namespace mystl
 		vector<T>::clear()
 	{
 		for (size_t i = 0; i < m_Size; i++)
-		{
 			m_Data[i].~T();
-		}
 
 		m_Size = 0;
 	}
@@ -456,14 +431,10 @@ namespace mystl
 		m_Size = newCapacity < m_Size ? newCapacity : m_Size;
 
 		for (size_t i = 0; i < m_Size; i++)
-		{
 			newBlock[i] = m_Data[i];
-		}
 
 		for (size_t i = 0; i < m_Size; i++)
-		{
 			m_Data[i].~T();
-		}
 
 		::operator delete(m_Data, m_Capacity * sizeof(T));
 		m_Data = newBlock;
