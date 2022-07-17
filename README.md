@@ -117,6 +117,17 @@ The array data structure stores elements of a specified data type in a contiguou
 </details>
 
 <details>
+  <summary>Mutator Functions</summary>
+  <p>
+
+  Mutator Functions                        | Return Type              | Description
+  ---------------------------------------- | :----------------------: | :---------------------------------:
+  `fill(const_reference_type fillElement)` | `void`                   | fills the array with a given value
+  `swap(array& other)`                     | `void`                   | swaps two arrays
+  </p>
+</details>
+
+<details>
   <summary>Size Functions</summary>
   <p>
 
@@ -125,17 +136,6 @@ The array data structure stores elements of a specified data type in a contiguou
   `size() const`                           | `size_t`                 | returns the size of the array
   `max_size() const`                       | `size_t`                 | returns the max size of the array (returns the same value as size())
   `empty() const`                          | `bool`                   | returns true if the array is empty, false otherwise
-  </p>
-</details>
-
-<details>
-  <summary>Mutator Functions</summary>
-  <p>
-
-  Mutator Functions                        | Return Type              | Description
-  ---------------------------------------- | :----------------------: | :---------------------------------:
-  `fill(const_reference_type fillElement)` | `void`                   | fills the array with a given value
-  `swap(array& other)`                     | `void`                   | swaps two arrays
   </p>
 </details>
 
@@ -298,19 +298,6 @@ The vector data structure stores elements of a specified data type in a contiguo
 </details>
 
 <details>
-  <summary>Size Functions</summary>
-  <p>
-   
-  Size Functions                           | Return Type              | Description
-  ---------------------------------------- | :----------------------: | :---------------------------------------------------:
-  `empty() const`                          | `bool`                   | returns true if the vector is empty, false otherwise
-  `size() const`                           | `size_t`                 | returns the size of the vector
-  `max_size() const`                       | `size_t`                 | returns the max size of the vector
-  `capacity() const`                       | `size_t`                 | returns the capacity of the vector
-   </p>
-</details>
-
-<details>
   <summary>Mutator Functions</summary>
   <p>
    
@@ -326,6 +313,19 @@ The vector data structure stores elements of a specified data type in a contiguo
   `resize(const size_t& size)`                                      | `void`           | resizes vector to specified size
   `shrink_to_fit()`                                                 | `void`           | shrinks vector to reduce unused memory
   </p>
+</details>
+
+<details>
+  <summary>Size Functions</summary>
+  <p>
+   
+  Size Functions                           | Return Type              | Description
+  ---------------------------------------- | :----------------------: | :---------------------------------------------------:
+  `empty() const`                          | `bool`                   | returns true if the vector is empty, false otherwise
+  `size() const`                           | `size_t`                 | returns the size of the vector
+  `max_size() const`                       | `size_t`                 | returns the max size of the vector
+  `capacity() const`                       | `size_t`                 | returns the capacity of the vector
+   </p>
 </details>
 
 <details>
@@ -514,19 +514,6 @@ The list data structure is a representation of a linked list and stores elements
   </p>
 </details>
 
-
-<details>
-  <summary>Size Functions</summary>
-  <p>
-   
-  Size Functions                           | Return Type              | Description
-  ---------------------------------------- | :----------------------: | :-----------------------------------------------------------------------------:
-  `empty() const`                          | `bool`                   | returns true if the list is empty, false otherwise
-  `size() const`                           | `size_t`                 | returns the size of the list
-  </p>
-</details>
-
-
 <details>
   <summary>Mutator Functions</summary>
   <p>
@@ -551,11 +538,31 @@ The list data structure is a representation of a linked list and stores elements
   `remove(T&& element)`                                             | `value_type`     | removes the element from the list given that it exists
   `remove(const_reference_type element)`                            | `value_type`     | removes the element from the list given that it exists
   `template<class Predicate> remove_if(const Predicate& predicate)` | `void`           | removes an element based on a specified predicate
-  `sort()`                                                          | `void`           | sorts list
+  </p>
+</details>
+
+<details>
+  <summary>Mutator Functions (Algorithms)</summary>
+  <p>
+   
+  Mutator Functions (Algorithms)                                    | Return Type      | Description
+  ----------------------------------------------------------------- | :--------------: | :----------------------------------------------------------:
+  `sort()`                                                          | `void`           | sorts list in ASCII order
   `template<class Compare> sort(const Compare& comparator)`         | `void`           | sorts list using a specified comparator
   `merge()`                                                         | `void`           | merges two lists
   `template<class Compare> merge(const Compare& comparator)`        | `void`           | merges two lists using a specified comparator
   `reverse()`                                                       | `void`           | reverses list
+  </p>
+</details>
+  
+<details>
+  <summary>Size Functions</summary>
+  <p>
+   
+  Size Functions                           | Return Type              | Description
+  ---------------------------------------- | :----------------------: | :-----------------------------------------------------------------------------:
+  `empty() const`                          | `bool`                   | returns true if the list is empty, false otherwise
+  `size() const`                           | `size_t`                 | returns the size of the list
   </p>
 </details>
 
@@ -736,17 +743,6 @@ The deque data structures is a double ended queue that stores elements of a spec
 </details>
 
 <details>
-  <summary>Size Functions</summary>
-  <p>
-   
-  Size Functions                           | Return Type              | Description
-  ---------------------------------------- | :----------------------: | :--------------------------------------------------:
-  `empty() const`                          | `bool`                   | returns true if the deque is empty, false otherwise
- `size() const`                           | `size_t`                 | returns the size of the deque
-  </p>
-</details>
-
-<details>
   <summary>Mutator Functions</summary>
   <p>
    
@@ -761,6 +757,17 @@ The deque data structures is a double ended queue that stores elements of a spec
   `pop_front()`                                                     | `value_type`     | deletes the first element from the deque
   `pop_back()`                                                      | `value_type`     | deletes the last element from the deque
 
+  </p>
+</details>
+
+<details>
+  <summary>Size Functions</summary>
+  <p>
+   
+  Size Functions                           | Return Type              | Description
+  ---------------------------------------- | :----------------------: | :--------------------------------------------------:
+  `empty() const`                          | `bool`                   | returns true if the deque is empty, false otherwise
+ `size() const`                           | `size_t`                 | returns the size of the deque
   </p>
 </details>
 
