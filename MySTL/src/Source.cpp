@@ -227,6 +227,8 @@ int main() {
 	LOG("\nemplace 65 to BST");
 	bst.emplace(65);
 
+	LOG("\nBST size: " << bst.size());
+
 	LOG("\nprint BST preorder");
 	for (const auto& x : bst.preorder())
 		LOGIL(x << " ");
@@ -260,6 +262,47 @@ int main() {
 
 		LOGIL("} ");
 	}
+
+	LOG("\nerase 25 from BST");
+	bst.erase(25);
+
+	LOG("\nBST size: " << bst.size());
+
+	LOG("\nprint BST inorder");
+	for (const auto& x : bst.inorder())
+		LOGIL(x << " ");
+
+	LOG("\n\nprint BST level-order");
+	for (auto x : bst.level_order())
+	{
+		LOGIL("{ ");
+
+		for (auto y : x)
+			LOGIL(y << " ");
+
+		LOGIL("} ");
+	}
+
+	LOG("\nerase 50 from BST");
+	bst.erase(50);
+
+	LOG("\nBST size: " << bst.size());
+
+	LOG("\nprint BST inorder");
+	for (const auto& x : bst.inorder())
+		LOGIL(x << " ");
+
+	LOG("\n\nprint BST level-order");
+	for (auto x : bst.level_order())
+	{
+		LOGIL("{ ");
+
+		for (auto y : x)
+			LOGIL(y << " ");
+
+		LOGIL("} ");
+	}
+
 
 	return 0;
 }
