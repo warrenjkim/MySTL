@@ -5,6 +5,7 @@
 #include "data_structures/deque.h"
 #include "data_structures/stack.h"
 #include "data_structures/queue.h"
+#include "data_structures/binary_search_tree.h"
 
 #define LOG(x) std::cout << x << std::endl
 #define LOGIL(x) std::cout << x 
@@ -20,18 +21,14 @@ int main() {
 	LOG("array of size 5 filled with 2");
 	LOG("printed using for-loop");
 	for (size_t i = 0; i < arr.size(); i++)
-	{
 		LOG(arr[i]);
-	}
 	
 
 	std::cout << std::endl;
 	LOG("array being incremented");
 	LOG("manipulated/printed using for-each loop");
 	for (auto& x : arr)
-	{
 		LOG(++x);
-	}
 
 	LOG("\n\nVECTOR");
 	mystl::vector<int> vec{};
@@ -62,9 +59,7 @@ int main() {
 
 	LOG("\nvector printed using for-each loop");
 	for (const auto& x : vec)
-	{
 		LOG(x);
-	}
 
 	LOG("\n\nLIST");
 	mystl::list<int> list{};
@@ -90,18 +85,16 @@ int main() {
 
 	LOG("\nprint list using for-each loop");
 	for (const auto& x : list)
-	{
 		LOGIL(x << "->");
-	}
+
 	std::cout << std::endl;
 
 	LOG("pop front: " << list.pop_front());
 	LOG("pop back: " << list.pop_back());
 
 	for (const auto& x : list)
-	{
 		LOGIL(x << "->");
-	}
+	
 	std::cout << std::endl;
 
 	LOG("list at index 1: " << list[1]);
@@ -130,18 +123,16 @@ int main() {
 
 	LOG("\nprint deque using for-each loop");
 	for (const auto& x : deque)
-	{
 		LOGIL(x << " ");
-	}
+
 	std::cout << std::endl;
 
 	LOG("pop front: " << deque.pop_front());
 	LOG("pop back: " << deque.pop_back());
 
 	for (const auto& x : deque)
-	{
 		LOGIL(x << " ");
-	}
+
 	std::cout << std::endl;
 
 	LOG("deque at index 1: " << deque[1]);
@@ -175,6 +166,7 @@ int main() {
 		LOGIL(stack.top() << " ");
 		stack.pop();
 	}
+
 	std::cout << std::endl;
 
 	LOG("\n\nQUEUE");
@@ -207,7 +199,67 @@ int main() {
 		LOGIL(queue.front() << " ");
 		queue.pop();
 	}
+
 	std::cout << std::endl;
+
+	LOG("\n\nBINARY SEARCH TREE (BST)");
+	mystl::binary_search_tree<int> bst{};
+
+	LOG("initialized empty BST");
+	LOG("BST size: " << bst.size());
+	LOG("BST empty: " << bst.empty());
+
+	LOG("\npush 50 to BST");
+	bst.push(50);
+	
+	LOG("\nemplace 20 to BST");
+	bst.emplace(20);
+
+	LOG("\npush 70 to BST");
+	bst.push(70);
+
+	LOG("\npush 25 to BST");
+	bst.push(25);
+
+	LOG("\nemplace 80 to BST");
+	bst.emplace(80);
+
+	LOG("\nemplace 65 to BST");
+	bst.emplace(65);
+
+	LOG("\nprint BST preorder");
+	for (const auto& x : bst.preorder())
+		LOGIL(x << " ");
+
+	LOG("\n\nprint BST inorder");
+	for (const auto& x : bst.inorder())
+		LOGIL(x << " ");
+
+	LOG("\n\nprint BST postorder");
+	for (const auto& x : bst.postorder())
+		LOGIL(x << " ");
+
+	LOG("\n\nprint BST breadth-first");
+	for (auto x : bst.breadth_first())
+	{
+		LOGIL("{ ");
+
+		for (auto y : x)
+			LOGIL(y << " ");
+
+		LOGIL("} ");
+	}
+
+	LOG("\n\nprint BST level-order");
+	for (auto x : bst.level_order())
+	{
+		LOGIL("{ ");
+
+		for (auto y : x)
+			LOGIL(y << " ");
+
+		LOGIL("} ");
+	}
 
 	return 0;
 }
