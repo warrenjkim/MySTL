@@ -7,15 +7,18 @@ namespace mystl
 	template<typename T>
 	struct node
 	{
+	public:
 		using value_type = T;
+		using const_reference_type = const T&;
 
-		T		data = T();
-		node* next = nullptr;
-		node* prev = nullptr;
+	public:
+		value_type	data = value_type();
+		node*		next = nullptr;
+		node*		prev = nullptr;
 
-		node() : data(T()), next(nullptr), prev(nullptr) { }
-
-		node(const T& data) : data(data), next(nullptr), prev(nullptr) { }
+	public:
+		constexpr node() : data(value_type()), next(nullptr), prev(nullptr) { }
+		constexpr node(const_reference_type& data) : data(data), next(nullptr), prev(nullptr) { }
 		~node() = default;
 	};
 }
