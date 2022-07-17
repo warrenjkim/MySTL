@@ -177,6 +177,7 @@ namespace mystl
 	constexpr void 
 		binary_search_tree<T>::erase(const_reference_type element)
 	{
+		m_Size--;
 		erase(m_Root, element);
 	}
 
@@ -390,27 +391,25 @@ namespace mystl
 			}
 			else if (!root->right)
 			{
-				binary_node_ptr temp = root->right;
+				binary_node_ptr temp = root->left;
 				delete root;
 				return temp;
 			}
 			
-			auto nextInOrder = [=](binary_node_ptr node)
+			binary_node_ptr target = [=](binary_node_ptr node)
 			{
 				while (node && node->left)
 					node = node->left;
 
 				return node;
-			};
-
-			binary_node_ptr target = nextInOrder(root->right);
+			}(root->right);
 
 			root->data = target->data;
 
 			root->right = erase(root->right, target->data);
-
-			return root;
 		}
+
+		return root;
 	}
 }
 
