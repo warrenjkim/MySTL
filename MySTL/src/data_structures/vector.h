@@ -41,6 +41,7 @@ namespace mystl
 		constexpr							vector(const size_t& capacity);
 		constexpr							vector(const size_t& capacity, T&& fillElement);
 		constexpr							vector(const size_t& capacity, const_reference_type fillElement);
+		constexpr							vector(const vector& other);
 											~vector();
 
 	// size functions
@@ -86,6 +87,10 @@ namespace mystl
 					[[noreturn]] void		resize(const size_t& size);
 					[[noreturn]] void		shrink_to_fit();
 
+	// operators
+	public:
+		constexpr	vector<T>&				operator=(const vector& other);
+
 	// iterator functions
 	public:
 		constexpr	const_iterator			cbegin() const;
@@ -113,19 +118,19 @@ namespace mystl
 	};
 
 	template<typename T>
-	constexpr vector<T>::vector() : m_Size(0), m_Capacity(2)
+	constexpr vector<T>::vector() : m_Data(nullptr), m_Size(0), m_Capacity(2)
 	{
 		realloc(2);
 	}
 
 	template<typename T>
-	constexpr vector<T>::vector(const size_t& capacity) : m_Size(0), m_Capacity(size)
+	constexpr vector<T>::vector(const size_t& capacity) : m_Data(nullptr), m_Size(0), m_Capacity(capacity)
 	{
 		realloc(capacity);
 	}
 
 	template<typename T>
-	constexpr vector<T>::vector(const size_t& capacity, T&& fillElement) : m_Size(size), m_Capacity(size)
+	constexpr vector<T>::vector(const size_t& capacity, T&& fillElement) : m_Data(nullptr), m_Size(capacity), m_Capacity(capacity)
 	{
 		realloc(capacity);
 		for (size_t i = 0; i < m_Capacity; i++)
@@ -133,11 +138,22 @@ namespace mystl
 	}
 
 	template<typename T>
-	constexpr vector<T>::vector(const size_t& capacity, const_reference_type fillElement) : m_Size(size), m_Capacity(size)
+	constexpr vector<T>::vector(const size_t& capacity, const_reference_type fillElement) : m_Data(nullptr), m_Size(capacity), m_Capacity(capacity)
 	{
 		realloc(capacity);
 		for (size_t i = 0; i < m_Capacity; i++)
 			m_Data[i] = fillElement;
+	}
+
+	template<typename T>
+	constexpr vector<T>::vector(const vector& other)
+	{
+		m_Size = other.m_Size;
+		m_Capacity = other.m_Capacity;
+		m_Data = (T*)::operator new(m_Capacity * sizeof(T));
+
+		for (size_t i = 0; i < m_Size; i++)
+			new(&m_Data[i]) T(std::move(other.m_Data[i]));
 	}
 
 	template<typename T>
@@ -264,7 +280,7 @@ namespace mystl
 			realloc(growth);
 		}
 
-		m_Data[m_Size] = T(std::forward<Args>(args)...);
+		new(&m_Data[m_Size]) T(std::forward<Args>(args)...);
 
 		return m_Data[m_Size++];
 	}
@@ -293,7 +309,7 @@ namespace mystl
 		size_t i = 0;
 
 		while (it != end())
-			temp[i++] = std::move(*(it++));
+			new(&temp[i++]) T(std::move(*(it++)));
 
 		size_t size = i;
 
@@ -359,6 +375,20 @@ namespace mystl
 	{
 		realloc(m_Size);
 	}
+
+	template<typename T>
+	constexpr vector<T>& vector<T>::operator=(const vector& other)
+	{
+		m_Size = other.m_Size;
+		m_Capacity = other.m_Capacity;
+		m_Data = (T*)::operator new(m_Capacity * sizeof(T));
+		
+		for (size_t i = 0; i < m_Size; i++)
+			new(&m_Data[i]) T(std::move(other.m_Data[i]));
+		
+		return *this;
+	}
+
 
 	template<typename T>
 	constexpr typename vector<T>::const_iterator
@@ -431,7 +461,7 @@ namespace mystl
 		m_Size = newCapacity < m_Size ? newCapacity : m_Size;
 
 		for (size_t i = 0; i < m_Size; i++)
-			newBlock[i] = m_Data[i];
+			new(&newBlock[i]) T(std::move(m_Data[i]));
 
 		for (size_t i = 0; i < m_Size; i++)
 			m_Data[i].~T();
