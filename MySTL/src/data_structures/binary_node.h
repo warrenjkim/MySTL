@@ -15,10 +15,11 @@ namespace mystl
 				value_type		data	= value_type();
 				binary_node*	left	= nullptr;
 				binary_node*	right	= nullptr;
+				binary_node*	parent  = nullptr;
 
 	public:
-		constexpr				binary_node() : data(value_type()), left(nullptr), right(nullptr) { }
-		constexpr				binary_node(const_reference_type data) : data(data), left(nullptr), right(nullptr) { }
+		constexpr				binary_node() : data(value_type()), left(nullptr), right(nullptr), parent(nullptr) { }
+		constexpr				binary_node(const_reference_type data) : data(data), left(nullptr), right(nullptr), parent(nullptr) { }
 								~binary_node() = default;
 	};
 }

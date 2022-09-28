@@ -33,6 +33,9 @@ namespace mystl
 		constexpr binary_node_ptr search(const_reference_type element) const;
 		constexpr bool contains(const_reference_type element) const;
 
+		constexpr binary_node_ptr root();
+		constexpr binary_node_ptr root() const;
+
 	// size functions
 	public:
 		constexpr size_t height(binary_node_ptr root) const;
@@ -64,7 +67,7 @@ namespace mystl
 		constexpr vector<vector<T>> breadth_first() const;
 
 	// traversals
-	private:
+	protected:
 		constexpr void preorder(binary_node_ptr root, vector<T>& order) const;
 		constexpr void inorder(binary_node_ptr root, vector<T>& order) const;
 		constexpr void postorder(binary_node_ptr root, vector<T>& order) const;
@@ -72,9 +75,9 @@ namespace mystl
 		constexpr void breadth_first(binary_node_ptr root, vector<vector<T>>& order) const;
 
 	// private helper functions
-	private:
+	protected:
 		template<typename... Args>
-		constexpr binary_node_ptr emplace(binary_node_ptr& root, Args&&... args);
+		constexpr binary_node_ptr emplace(binary_node_ptr& root, binary_node_ptr parent, Args&&... args);
 		constexpr binary_node_ptr search(const_reference_type element, binary_node_ptr root) const;
 		constexpr size_t max_height(binary_node_ptr root);
 		constexpr void delete_tree(binary_node_ptr root);
@@ -82,7 +85,7 @@ namespace mystl
 		constexpr binary_node_ptr erase(binary_node_ptr root, const_reference_type element);
 
 	// variables
-	public:
+	protected:
 		binary_node_ptr m_Root = nullptr;
 		size_t m_Size = 0;
 	};
@@ -111,6 +114,20 @@ namespace mystl
 	}
 
 	template<typename T>
+	constexpr typename binary_search_tree<T>::binary_node_ptr
+		binary_search_tree<T>::root()
+	{
+		return m_Root;
+	}
+
+	template<typename T>
+	constexpr typename binary_search_tree<T>::binary_node_ptr 
+		binary_search_tree<T>::root() const
+	{
+		return m_Root;
+	}
+
+	template<typename T>
 	constexpr size_t 
 		binary_search_tree<T>::height(binary_node_ptr root) const
 	{
@@ -121,7 +138,7 @@ namespace mystl
 	constexpr size_t 
 		binary_search_tree<T>::depth(binary_node_ptr root) const
 	{
-		return max_heigh(m_Root) - max_height(root);
+		return max_height(m_Root) - max_height(root);
 	}
 
 	template<typename T>
@@ -142,19 +159,20 @@ namespace mystl
 	constexpr typename binary_search_tree<T>::binary_node_ptr
 		binary_search_tree<T>::emplace(Args && ...args)
 	{
-		return emplace(m_Root, std::forward<Args>(args)...);
+		return emplace(m_Root, nullptr, std::forward<Args>(args)...);
 	}
 
 	template<typename T>
 	template<typename ...Args>
 	constexpr typename binary_search_tree<T>::binary_node_ptr 
-		binary_search_tree<T>::emplace(binary_node_ptr& root, Args && ...args)
+		binary_search_tree<T>::emplace(binary_node_ptr& root, binary_node_ptr parent, Args && ...args)
 	{
 		binary_node_ptr temp = new binary_node(std::forward<Args>(args)...);
 
 		if (!root)
 		{
 			root = temp;
+			root->parent = parent;
 			m_Size++;
 			return temp;
 		}
